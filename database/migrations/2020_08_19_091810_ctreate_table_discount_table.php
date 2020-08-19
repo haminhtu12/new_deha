@@ -15,6 +15,8 @@ class CtreateTableDiscountTable extends Migration
     {
         Schema::create('discount', function (Blueprint $table) {
             $table->id();
+            $table->float('discount');
+            $table->string('productDetails_id');
             $table->timestamps();
         });
     }

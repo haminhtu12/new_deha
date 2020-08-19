@@ -15,6 +15,12 @@ class CtreateTableProductDetailsTable extends Migration
     {
         Schema::create('product_details', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->int('product_id');
+            $table->string('detail');
+            $table->float('price');
+            $table->string('status');
+            $table->int('amount');
             $table->timestamps();
         });
     }
