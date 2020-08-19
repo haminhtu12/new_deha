@@ -16,7 +16,7 @@ class CtreateTableOrderTable extends Migration
         Schema::create('order', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date');
-            $table->int('user_id');
+            $table->integer('user_id');
             $table->string('method');
             $table->string('status');
             $table->float('totalprice');

@@ -16,10 +16,10 @@ class CtreateTableOrderDetailsTable extends Migration
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
             $table->float('price');
-            $table->int('order_amount');
+            $table->integer('order_amount');
             $table->float('totalprice');
-            $table->int('orders_id');
-            $table->int('productDetails_id');
+            $table->integer('orders_id');
+            $table->integer('productDetails_id');
             $table->timestamps();
         });
     }
