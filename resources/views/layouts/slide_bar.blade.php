@@ -64,47 +64,11 @@
                     <ul  class="collapse"  id="user"
                          data-parent="#sidebar-menu">
                         <div class="sub-menu">
-
-
-
                             <li >
                                 <a class="sidenav-item-link" href="#">
                                     <span class="nav-text">Users</span>
-
                                 </a>
                             </li>
-
-
-
-
-
-
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('mail_management')}}">
-                                    <span class="nav-text">Mails</span>
-
-
-                                </a>
-                            </li>
-
-
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('mes_management')}}">
-                                    <span class="nav-text">Message</span>
-
-
-                                </a>
-                            </li>
-
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('comment_management')}}">
-                                    <span class="nav-text">Comment</span>
-
-
-                                </a>
-                            </li>
-
-
                         </div>
                     </ul>
                 </li>
@@ -154,26 +118,8 @@
                                 </a>
                             </li>
 
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('author_management')}}">
-                                    <span class="nav-text">Author</span>
 
-                                </a>
-                            </li>
 
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('language_management')}}">
-                                    <span class="nav-text">Language</span>
-
-                                </a>
-                            </li>
-
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('pub_management')}}">
-                                    <span class="nav-text">Publisher</span>
-
-                                </a>
-                            </li>
 
                         </div>
                     </ul>
@@ -184,49 +130,49 @@
 
                 <!-- News Management -->
 
-                <li  class="has-sub" >
-                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#news"
-                       aria-expanded="false" aria-controls="news">
-                        <i class="mdi mdi-book-open-page-variant"></i>
-                        <span class="nav-text">News Management</span> <b class="caret"></b>
-                    </a>
-                    <ul  class="collapse"  id="news"
-                         data-parent="#sidebar-menu">
-                        <div class="sub-menu">
+{{--                <li  class="has-sub" >--}}
+{{--                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#news"--}}
+{{--                       aria-expanded="false" aria-controls="news">--}}
+{{--                        <i class="mdi mdi-book-open-page-variant"></i>--}}
+{{--                        <span class="nav-text">News Management</span> <b class="caret"></b>--}}
+{{--                    </a>--}}
+{{--                    <ul  class="collapse"  id="news"--}}
+{{--                         data-parent="#sidebar-menu">--}}
+{{--                        <div class="sub-menu">--}}
 
 
 
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('newscate_management')}}">
-                                    <span class="nav-text">Category</span>
+{{--                            <li >--}}
+{{--                                <a class="sidenav-item-link" href="{{asset('newscate_management')}}">--}}
+{{--                                    <span class="nav-text">Category</span>--}}
 
-                                </a>
-                            </li>
-
-
+{{--                                </a>--}}
+{{--                            </li>--}}
 
 
 
 
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('tag_management')}}">
-                                    <span class="nav-text">Tags</span>
-
-                                </a>
-                            </li>
-
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('news_management')}}">
-                                    <span class="nav-text">News</span>
-
-                                </a>
-                            </li>
 
 
+{{--                            <li >--}}
+{{--                                <a class="sidenav-item-link" href="{{asset('tag_management')}}">--}}
+{{--                                    <span class="nav-text">Tags</span>--}}
 
-                        </div>
-                    </ul>
-                </li>
+{{--                                </a>--}}
+{{--                            </li>--}}
+
+{{--                            <li >--}}
+{{--                                <a class="sidenav-item-link" href="{{asset('news_management')}}">--}}
+{{--                                    <span class="nav-text">News</span>--}}
+
+{{--                                </a>--}}
+{{--                            </li>--}}
+
+
+
+{{--                        </div>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
 
                 <!-- End News -->
 
