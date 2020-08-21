@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('master', function () {
+Route::get('index', function () {
     return view('layouts.master');
+});
+Route::group(['prefix'=>'users'],function(){
+    Route::get('/','UserController@index');
 });
