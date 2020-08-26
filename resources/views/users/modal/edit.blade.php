@@ -4,15 +4,14 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
+                <h4 class="modal-title" id="editUserModalTitle">Modal Heading</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form class="form-horizontal" action="" method="post" id="contact_form" enctype="multipart/form-data">
+                <form class="form-horizontal" method="post" id="contact_form" enctype="multipart/form-data"  >
                     @csrf
-                    @method('put')
                     <fieldset>
                         <div class="form-group">
                             <div class="row">
@@ -26,7 +25,7 @@
                                                 <i class="mdi mdi-account"></i>
                                             </span>
                                         </div>
-                                        <input type="text" id="lastname" name="name" class="form-control" placeholder="Username" value="{{$user->name}}">
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Username" value="{{$user->name}}">
                                     </div>
 
                                 </div>
@@ -66,7 +65,7 @@
                                                 <i class="mdi mdi-phone"></i>
                                  </span>
                                         </div>
-                                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="phone">
+                                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" value="{{$user->phone}}">
                                     </div>
 
                                 </div>
@@ -85,7 +84,7 @@
                                                 <i class="mdi mdi-home"></i>
                                             </span>
                                         </div>
-                                        <input type="text" id="address" name="address" class="form-control" placeholder="Address" value="address">
+                                        <input type="text" id="address" name="address" class="form-control" placeholder="address" value="{{$user->address}}">
                                     </div>
 
                                 </div>
@@ -106,9 +105,9 @@
                                      </span>
                                         </div>
 
-                                        <select name="status" id="selectBox" class="form-control" onchange="changeFunction();">
-                                            <option value="1"  >Active  </option>
-                                            <option value="0"  >InActive</option>
+                                        <select name="status" id="status" class="form-control" >
+                                            <option value="active"  >active  </option>
+                                            <option value="inactive"  >inActive</option>
                                         </select>
 
                                     </div>
@@ -130,7 +129,7 @@
                                                 <i class="mdi mdi-google-photos"></i>
                                    </span>
                                         </div>
-                                        <input type="file" class="form-control" id="file" name="file" placeholder="Enter Image"/>
+                                        <input type="file" class="form-control" id="avatar" name="file" placeholder="Enter Image"/>
                                     </div>
 
                                 </div>
@@ -145,7 +144,7 @@
                             <div class="row">
                                 <label class="col-md-4 col-lg-4 control-label"></label>
                                 <div class="col-md-4 col-lg-4">
-                                    <button type="submit" class="btn btn-danger raised">Submit <i class="fa fa-paper-plane"></i></button>
+                                    <button type="button" class="btn btn-danger  raised" id="edit-submit">Submit <i class="fa fa-paper-plane"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -155,14 +154,50 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="edit-submit" data-dismiss="modal">Close</button>
             </div>
 
         </div>
     </div>
+</div>
 
-
-
+<script type="text/javascript">
+    $(document).ready(function (){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        //
+        // $(".edit-submit").click(function (e){
+        //     e.preventDefault();
+        //     alert(1);
+            // e.preventDefault();
+            // var url = $(this).attr('action');
+            // $.ajax({
+            //    type:'post',
+            //    url:url,
+            //    data:{
+            //        name :    $('#name').val(),
+            //        email :   $('#email').val(),
+            //        phone :   $('#phone').val(),
+            //        address:  $('#address').val(),
+            //        status :  $('#status').val(),
+            //        avatar :  $('#avatar').val(),
+            //    },
+            //    success: function (response){
+            //        if (response){
+            //        }
+            //        toastr.success('Edit User Success');
+            //        $('#name').val(response.data.name);
+            //    },
+            //     error: function (jqXHR,textStatus,errorThrow){
+            //
+            //     }
+            // });
+       // });
+    });
+</script>
 
 
 

@@ -21,4 +21,6 @@ Route::get('index', function () {
 });
 Route::group(['prefix'=>'users'],function(){
     Route::get('/','UserController@index');
+    Route::get('/edit/{id}','UserController@edit')->name('user.edit');
+    Route::post('/update/{id}','UserController@update')->name('user.update');
 });

@@ -4,17 +4,24 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\This;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $user;
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
+
+
+
     public function index()
     {
-       $users = User::all();
+       $users = $this->user->all();
+
        return view('users.index')->with(['users'=>$users]);
     }
 
@@ -25,7 +32,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+
+
     }
 
     /**
@@ -58,7 +66,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return response()->json([
+            'user'=>$user,
+            'status'=>200
+        ]);
+
     }
 
     /**
@@ -70,7 +83,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $user = User::find($id);
+        $user ->update($request->all());
+        return  response()->json(['user'=>$user]);
     }
 
     /**
@@ -82,5 +98,12 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public  function ajax($id){
+        $user = User::find($id);
+        return response()->json([
+            'user'=>$user
+        ]);
     }
 }
