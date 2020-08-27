@@ -7,7 +7,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BookShop</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title')</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet"/>
@@ -24,23 +25,11 @@
     <link id="sleek-css" rel="stylesheet" href="{{asset('assets/css/sleek.css')}}" />
     <!-- FAVICON -->
     <link href="{{asset('assets/img/favicon.png')}}" rel="shortcut icon" />
-{{--    <link rel="stylesheet" href="{{asset('css/user/modal.css')}}">--}}
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script src="assets/plugins/nprogress/nprogress.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src = "{{asset('admin/js/my_js.js')}}"></script>
-    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('assets/css/user/mystyle.css')}}">
+    @yield('style')
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="sidebar-fixed sidebar-dark header-fixed header-light" id="body">
-{{--<script>--}}
-{{--    NProgress.configure({showSpinner: false});--}}
-{{--    NProgress.start();--}}
-{{--</script>--}}
-
 <div class="mobile-sticky-body-overlay"></div>
 <div class="wrapper">
         @include('layouts.slide_bar')
@@ -50,8 +39,19 @@
         @include('layouts.footer')
         </div>
 </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="assets/plugins/nprogress/nprogress.js"></script>
+
+<script src = "{{asset('admin/js/my_js.js')}}"></script>
+<script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('assets/js/user/myjs.js')}}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script>
-<script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+
 <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/plugins/toaster/toastr.min.js')}}"></script>
 <script src="{{asset('assets/plugins/slimscrollbar/jquery.slimscroll.min.js')}}"></script>
@@ -70,6 +70,16 @@
 <script src="{{asset('assets/js/date-range.js')}}"></script>
 <script src="{{asset('assets/js/map.js')}}"></script>
 <script src="{{asset('assets/js/custom.js')}}"></script>
-</body>
+<script>
+    $(document).ready(function (){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+    });
+</script>
+@yield('script')
 </html>
 

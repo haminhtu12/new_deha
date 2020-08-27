@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome')->name('');
 });
 Route::get('index', function () {
     return view('layouts.master');
 });
 Route::group(['prefix'=>'users'],function(){
-    Route::get('/','UserController@index');
+    Route::get('/','UserController@index')->name('user.index');
     Route::get('/edit/{id}','UserController@edit')->name('user.edit');
     Route::post('/update/{id}','UserController@update')->name('user.update');
+    Route::post('/delete/{id}','UserController@destroy')->name('user.delete');
+    Route::post('/add','UserController@store')->name('user.store');
+    Route::get('/list','UserController@list')->name('user.list');
 });

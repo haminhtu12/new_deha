@@ -10,14 +10,15 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <button class="btn btn-danger">Confirm</button>
+                <button class="btn btn-danger" id="confirmDeleteUser" >Confirm</button>
                 <button class="btn btn-secondary">Cancel</button>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelDeleteUser">Close</button>
             </div>
 
         </div>
     </div>
+</div>

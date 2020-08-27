@@ -44,7 +44,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->status = $request->status;
+        $user->address = $request->address;
+        $user->password = $request->password;
+        $user->level = 1;
+        $user->save();
+        return  response(['user'=>$user]);
     }
 
     /**
@@ -83,8 +92,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user ->update($request->all());
         return  response()->json(['user'=>$user]);
     }
@@ -97,13 +105,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return  response()->json(['data'=>'remove']);
     }
 
-    public  function ajax($id){
-        $user = User::find($id);
-        return response()->json([
-            'user'=>$user
-        ]);
+    public  function list(){
+        $users = $this->user->all();
+        return view('users.list')->with(['users'=>$users]);
     }
 }
