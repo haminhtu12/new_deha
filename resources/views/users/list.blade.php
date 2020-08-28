@@ -43,17 +43,18 @@
                     <form method="POST" action=""
                           onsubmit="confirm('Bạn có chắc muốn  thay đổi Status  ? ')">
                         @csrf
-                        <input type="submit" id="status{{$user->id}}" value="{{$user->status}}" class="btn btn-success "/>
+                        <button type="button" id="status{{$user->id}}"  class=" btn {{$user->status =='active'? 'btn-success':'btn-secondary' }} btn-change-status" data-action="{{route('user.changeStatus',$user->id)}}">{{$user->status}}</button>
                     </form>
                 </td>
                 <td class="center">
                     <button class="btn btn-danger btn-edit-user" data-action ="{{route('user.edit',$user->id)}}" data-update= {{route('user.update',$user->id)}} data-toggle="modal" data-target="#myModal">Edit</button>
 
                     <button class="btn btn-primary btn-delete-user" data-toggle="modal" data-target="#idDelete" data-delete = "{{route('user.delete',$user->id)}}" >Delete</button>
-                    @include('users.modal.delete')
                 </td>
             </tr>
         @endforeach
+        @include('users.modal.delete')
+
         </tbody>
     </table>
 </div>

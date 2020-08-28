@@ -56,7 +56,7 @@ $(document).ready(function () {
         let data = new FormData($('#add-contact_form')[0]);
         callUserApi(urlAddUser, data, "POST")
             .then((res) => {
-                toastr.success(" Success Create User");
+                toastr.success(" Create Success  User");
                 $('#addModalUser').modal('hide');
                 getList();
             });
@@ -65,6 +65,43 @@ $(document).ready(function () {
     $(document).on('click', '#cancelDeleteUser', function () {
         $('#idDelete').modal('hide');
     });
+
+    //change status
+    $(document).on('click','.btn-change-status',function (){
+        let urlChangeStatusUser = $(this).data('action');
+        callUserApi(urlChangeStatusUser)
+            .then((res) => {
+                toastr.success(" Status Change Success ");
+                getList();
+
+            });
+    })
+
+    //filter
+    $(document).on('click','#btnFilterAllUser',function (){
+        let urlChangeStatusUser = $(this).data('action');
+        callUserApi(urlChangeStatusUser)
+            .then((res) => {
+                $('#table-user').replaceWith(res);
+            });
+    })
+    $(document).on('click','#btnFilterActiveUser',function (){
+        let urlChangeStatusUser = $(this).data('action');
+        callUserApi(urlChangeStatusUser)
+            .then((res) => {
+                $('#table-user').replaceWith(res);
+            });
+    })
+    $(document).on('click','#btnFilterInActiveUser',function (){
+        let urlChangeStatusUser = $(this).data('action');
+        callUserApi(urlChangeStatusUser)
+            .then((res) => {
+                $('#table-user').replaceWith(res);
+            });
+    })
+
+
+
 });
 
 function callUserApi(url, data = '', method = 'get') {
@@ -93,4 +130,17 @@ function getList() {
         .then((res) => {
             $('#table-user').replaceWith(res);
         })
+}
+function seachUser(){
+    let searchText = '';
+    searchText = document.getElementById("input-search-user").value;
+        let urlSearch =  $('#input-search-user').attr('data-action');
+        callUserApi(urlSearch + '?search=' + searchText)
+            .then((res) => {
+                $('#table-user').replaceWith(res);
+            })
+
+
+
+
 }

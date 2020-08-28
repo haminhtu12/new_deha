@@ -110,8 +110,33 @@ class UserController extends Controller
         return  response()->json(['data'=>'remove']);
     }
 
-    public  function list(){
+    public function list(){
         $users = $this->user->all();
+        return view('users.list')->with(['users'=>$users]);
+    }
+    public function search(Request $request){
+        $searchText = $request->search;
+        $user = User::select()->where('name','like',"%$searchText%")->orwhere('email','like',"%$searchText%")->get();
+        return view('users.list')->with(['users'=>$user]);
+    }
+    public function changeStatus($id){
+        $user = User::find($id);
+        if($user->status == 'active'){
+            $user->status = 'inactive';
+        }else{
+            $user->status = 'active';
+        }
+        $user->save();
+    }
+    public function filter($field){
+
+        if ($field =='all'){
+            $users = $this->user->all();
+        }elseif ($field =='active'){
+            $users = User::select()->where('status',$field)->get();
+        }else{
+            $users = User::select()->where('status',$field)->get();
+        }
         return view('users.list')->with(['users'=>$users]);
     }
 }
