@@ -39,5 +39,52 @@ class User extends Authenticatable
     public function orders() {
         return $this->hasMany('App\Orders','user_id');
     }
+    public function createUser($name,$email,$phone,$status,$address,$password){
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->phone = $phone;
+        $user->status = $status;
+        $user->address = $address;
+        $user->password = $password;
+        $user->level = 1;
+        $user->save();
+        return  $user;
+    }
+    public function upDateUser($id,$request){
+        $user = User::findOrFail($id);
+        $user ->update($request->all());
+        return $user;
+    }
+    public function deleteUser($id){
+        $user = User::findOrFail($id);
+        $user->delete();
+    }
+    public function searchUser($request){
+        $searchText = $request->search;
+        $user = User::select()->where('name','like',"%$searchText%")->orwhere('email','like',"%$searchText%")->get();
+        return $user;
+    }
+    public function changeStatusUser($id){
+        $user = User::find($id);
+        if($user->status == 'active'){
+            $user->status = 'inactive';
+        }else{
+            $user->status = 'active';
+        }
+        $user->save();
+        return $user;
+    }
+    public function fileterUserStatus($field){
+        if ($field =='all'){
+            $users = User::all();
+        }elseif ($field =='active'){
+            $users = User::select()->where('status',$field)->get();
+        }else{
+            $users = User::select()->where('status',$field)->get();
+        }
+        return $users;
+    }
+
 
 }

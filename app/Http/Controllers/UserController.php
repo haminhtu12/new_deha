@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use phpDocumentor\Reflection\Types\This;
 
 class UserController extends Controller
@@ -28,7 +29,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -39,20 +40,12 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->status = $request->status;
-        $user->address = $request->address;
-        $user->password = $request->password;
-        $user->level = 1;
-        $user->save();
+        $user =  $this->user->createUser($request->name,$request->email,$request->phone,$request->status,$request->address,$request->password);
         return  response(['user'=>$user]);
     }
 
@@ -60,7 +53,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -71,29 +64,25 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
-        $user = User::find($id);
         return response()->json([
-            'user'=>$user,
-            'status'=>200
+            'user'=>User::find($id),
         ]);
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user ->update($request->all());
+        $user =  $this->user->upDateUser($id,$request);
         return  response()->json(['user'=>$user]);
     }
 
@@ -101,42 +90,26 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();
+        $this->user->deleteUser($id);
         return  response()->json(['data'=>'remove']);
     }
 
     public function list(){
-        $users = $this->user->all();
-        return view('users.list')->with(['users'=>$users]);
+        return view('users.list')->with(['users'=>$this->user->all()]);
     }
     public function search(Request $request){
-        $searchText = $request->search;
-        $user = User::select()->where('name','like',"%$searchText%")->orwhere('email','like',"%$searchText%")->get();
+        $user =  $this->user->searchUser($request);
         return view('users.list')->with(['users'=>$user]);
     }
     public function changeStatus($id){
-        $user = User::find($id);
-        if($user->status == 'active'){
-            $user->status = 'inactive';
-        }else{
-            $user->status = 'active';
-        }
-        $user->save();
+         $this->user->changeStatusUser($id);
     }
     public function filter($field){
-
-        if ($field =='all'){
-            $users = $this->user->all();
-        }elseif ($field =='active'){
-            $users = User::select()->where('status',$field)->get();
-        }else{
-            $users = User::select()->where('status',$field)->get();
-        }
+        $users =  $this->user->fileterUserStatus($field);
         return view('users.list')->with(['users'=>$users]);
     }
 }
