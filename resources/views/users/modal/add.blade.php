@@ -3,6 +3,7 @@
         <div class="modal-content">
 
             <!-- Modal Header -->
+
             <div class="modal-header">
                 <h4 class="modal-title" id="editUserModalTitle">Modal Heading</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -10,6 +11,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
+                @include('users.error')
                 <form class="form-horizontal" method="post" id="add-contact_form" enctype="multipart/form-data"  >
                     @csrf
                     <fieldset>
@@ -26,6 +28,8 @@
                                             </span>
                                         </div>
                                         <input type="text" id="addName" name="name" class="form-control" placeholder="Username" >
+
+                                        {{--                                        {{ $errors->first('name') }}--}}
                                     </div>
 
                                 </div>
@@ -178,6 +182,15 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="edit-submit" data-dismiss="modal">Close</button>
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
         </div>
     </div>

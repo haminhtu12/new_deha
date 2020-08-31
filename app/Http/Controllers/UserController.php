@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRequest as MainRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,10 +17,6 @@ class UserController extends Controller
     {
         $this->user = $user;
     }
-
-
-
-
     public function index()
     {
        $users = $this->user->all();
@@ -43,7 +41,7 @@ class UserController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(MainRequest $request)
     {
         $user =  $this->user->createUser($request->name,$request->email,$request->phone,$request->status,$request->address,$request->password);
         return  response(['user'=>$user]);
@@ -80,9 +78,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        $user =  $this->user->upDateUser($id,$request);
+        $all = $request->all();
+        $user =  $this->user->upDateUser($id,$all);
         return  response()->json(['user'=>$user]);
     }
 

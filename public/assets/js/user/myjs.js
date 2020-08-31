@@ -28,6 +28,16 @@ $(document).ready(function () {
                 getList()
                 $('#myModal').modal('hide');
             })
+            .catch((res)=>{
+                if (res.status == 422){
+                    $(".error").css('display','block');
+                    $.each( res.responseJSON.errors, function( key, value ) {
+                        $(".error").find("ul").append('<li>'+value+'</li>');
+                    });
+                }
+            })
+
+
     })
     let that = '';
 
@@ -51,7 +61,7 @@ $(document).ready(function () {
     })
 
     //add
-    $(document).on('click', '#add-submit-user', function () {
+    $(document).on('click', '#add-submit-user', function (e) {
         let urlAddUser = 'users/add';
         let data = new FormData($('#add-contact_form')[0]);
         callUserApi(urlAddUser, data, "POST")
@@ -59,7 +69,17 @@ $(document).ready(function () {
                 toastr.success(" Create Success  User");
                 $('#addModalUser').modal('hide');
                 getList();
-            });
+
+            })
+            .catch((res)=>{
+                if (res.status == 422){
+                    $(".error").css('display','block');
+                    $.each( res.responseJSON.errors, function( key, value ) {
+                        $(".error").find("ul").append('<li>'+value+'</li>');
+                    });
+                }
+        })
+
 
     })
     $(document).on('click', '#cancelDeleteUser', function () {

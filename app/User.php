@@ -51,9 +51,9 @@ class User extends Authenticatable
         $user->save();
         return  $user;
     }
-    public function upDateUser($id,$request){
+    public function upDateUser($id,$all){
         $user = User::findOrFail($id);
-        $user ->update($request->all());
+        $user ->update($all);
         return $user;
     }
     public function deleteUser($id){
