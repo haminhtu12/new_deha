@@ -14,8 +14,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome')->name('');
 });
-Route::get('master', function () {
+Route::get('index', function () {
     return view('layouts.master');
+});
+Route::group(['prefix'=>'users'],function(){
+    Route::get('/','UserController@index')->name('user.index');
+    Route::get('/edit/{id}','UserController@edit')->name('user.edit');
+    Route::post('/update/{id}','UserController@update')->name('user.update');
+    Route::post('/delete/{id}','UserController@destroy')->name('user.delete');
+    Route::post('/add','UserController@store')->name('user.store');
+    Route::get('/list','UserController@list')->name('user.list');
+    Route::get('/search','UserController@search')->name('user.search');
+    Route::get('/change-status/{id}','UserController@changeStatus')->name('user.changeStatus');
+    Route::get('/filter-users/{field}','UserController@filter')->name('user.filter');
+});
+Route::group(['prefix'=>'products'],function(){
+    Route::get('/','ProductController@index')->name('products.index');
+    Route::get('/edit/{id}','ProductController@edit')->name('product.edit');
+    Route::post('/update/{id}','ProductController@update')->name('product.update');
+    Route::post('/delete/{id}','ProductController@destroy')->name('product.delete');
+    Route::post('/add','ProductController@store')->name('product.store');
+    Route::get('/list','ProductController@list')->name('products.list');
+    Route::get('/search','ProductController@search')->name('products.search');
+    //Route::get('/filter-users/{field}','ProductController@filter')->name('products.filter');
 });
