@@ -129,7 +129,7 @@
                                                 <i class="mdi mdi-google-photos"></i>
                                    </span>
                                         </div>
-                                        <input type="file" class="form-control" id="avatar" name="avatar" placeholder="Enter Image"/>
+                                        <input type="file" class="form-control" id="avatar" name="file" placeholder="Enter Image"/>
                                     </div>
 
                                 </div>

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Intervention\Image\Facades\Image;
 
 class User extends Authenticatable
 {
@@ -40,7 +41,7 @@ class User extends Authenticatable
     public function orders() {
         return $this->hasMany('App\Orders','user_id');
     }
-    public function createUser($name,$email,$phone,$status,$address,$password){
+    public function createUser($name,$email,$phone,$status,$address,$password,$avatar){
         $user = new User();
         $user->name = $name;
         $user->email = $email;
@@ -49,11 +50,15 @@ class User extends Authenticatable
         $user->address = $address;
         $user->password = $password;
         $user->level = 1;
+        $avartar = $this->insertPhoto($avatar);
+        $user->avatar = $avartar;
         $user->save();
         return  $user;
     }
-    public function upDateUser($id,$all){
+    public function upDateUser($id,$all=null,$file =null){
         $user = User::findOrFail($id);
+        $avartar = $this->insertPhoto($file);
+        $user->avatar = $avartar;
         $user ->update($all);
         return $user;
     }
@@ -61,10 +66,8 @@ class User extends Authenticatable
         $user = User::findOrFail($id);
         $user->delete();
     }
-    public function searchUser($request){
-        $searchText = $request->search;
-        $user = User::select()->where('name','like',"%$searchText%")->orwhere('email','like',"%$searchText%")->get();
-        return $user;
+    public function searchUser($searchText){
+        return User::select()->where('name','like',"%$searchText%")->orwhere('email','like',"%$searchText%")->get();
     }
     public function changeStatusUser($id){
         $user = User::find($id);
@@ -86,6 +89,16 @@ class User extends Authenticatable
         }
         return $users;
     }
+    public static function insertPhoto($file =null)
+    {
+        if($file !=null)
+        {
+            $filename    = $file->getClientOriginalName();
 
-
+            $image_resize = Image::make($file->getRealPath());
+            $image_resize->resize(60, 60);
+            $image_resize->save(public_path('images/Avater/' .$filename));
+        }
+        return $filename;
+    }
 }

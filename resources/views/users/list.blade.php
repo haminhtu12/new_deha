@@ -15,14 +15,11 @@
         </thead>
         <tbody>
         @foreach($users as $user)
-            @php
-                if ($user->level ==0){
-                    $level ="Admin";
-                }else{
-                    $level ="User";
-                }
-
-            @endphp
+            @if($user->level ==0)
+                 {{$level ="Admin"}}
+            @else
+                {{$level ="User"}}
+            @endif
             <tr class="odd gradeX " >
                 <td class="center ">{{$loop->iteration}}</td>
                 {{--                                    @php--}}
@@ -33,7 +30,7 @@
 
 
                 {{--                                    @endphp--}}
-                <td class="center" id="avatar{{$user->id}}">{{$user->avatar}}</td>
+                <td class="center" id="avatar{{$user->id}}">@if($user->avatar != '')<img src="{{asset("images/Avater/$user->avatar")}}" alt="">@endif</td>
                 <td class="center" id="name{{$user->id}}">{!!$user->name!!}</td>
                 <td class="center" id="email{{$user->id}}">{!!$user->email!!}</td>
                 <td class="center" id="phone{{$user->id}}">{{$user->phone}}</td>

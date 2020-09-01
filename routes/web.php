@@ -30,3 +30,13 @@ Route::group(['prefix'=>'users'],function(){
     Route::get('/change-status/{id}','UserController@changeStatus')->name('user.changeStatus');
     Route::get('/filter-users/{field}','UserController@filter')->name('user.filter');
 });
+Route::group(['prefix'=>'products'],function(){
+    Route::get('/','ProductController@index')->name('products.index');
+    Route::get('/edit/{id}','ProductController@edit')->name('product.edit');
+    Route::post('/update/{id}','ProductController@update')->name('product.update');
+    Route::post('/delete/{id}','ProductController@destroy')->name('product.delete');
+    Route::post('/add','ProductController@store')->name('product.store');
+    Route::get('/list','ProductController@list')->name('products.list');
+    Route::get('/search','ProductController@search')->name('products.search');
+    //Route::get('/filter-users/{field}','ProductController@filter')->name('products.filter');
+});

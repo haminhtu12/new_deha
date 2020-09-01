@@ -19,9 +19,7 @@ class UserController extends Controller
     }
     public function index()
     {
-       $users = $this->user->all();
-
-       return view('users.index')->with(['users'=>$users]);
+       return view('users.index')->with(['users'=>$this->user->all()]);
     }
 
     /**
@@ -43,8 +41,7 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $user =  $this->user->createUser($request->name,$request->email,$request->phone,$request->status,$request->address,$request->password);
-        return  response(['user'=>$user]);
+        return  response(['user'=>$this->user->createUser($request->name,$request->email,$request->phone,$request->status,$request->address,$request->password,$request->file('avatar'))]);
     }
 
     /**
@@ -80,9 +77,10 @@ class UserController extends Controller
      */
     public function update(EditUserRequest $request, $id)
     {
-        $all = $request->all();
-        $user =  $this->user->upDateUser($id,$all);
+        $user =  $this->user->upDateUser($id,$request->all(),$request->file('avatar'));
         return  response()->json(['user'=>$user]);
+
+
     }
 
     /**
@@ -101,14 +99,12 @@ class UserController extends Controller
         return view('users.list')->with(['users'=>$this->user->all()]);
     }
     public function search(Request $request){
-        $user =  $this->user->searchUser($request);
-        return view('users.list')->with(['users'=>$user]);
+        return view('users.list')->with(['users'=>$this->user->searchUser($request->search)]);
     }
     public function changeStatus($id){
          $this->user->changeStatusUser($id);
     }
     public function filter($field){
-        $users =  $this->user->fileterUserStatus($field);
-        return view('users.list')->with(['users'=>$users]);
+        return view('users.list')->with(['users'=>$this->user->fileterUserStatus($field)]);
     }
 }

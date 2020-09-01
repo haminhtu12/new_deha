@@ -143,7 +143,6 @@ function fillUserToModal(user) {
     $('#phone').val(user.phone)
     $('#address').val(user.address)
     $('#status').val(user.status)
-    $('#avatar').val(user.avatar)
 }
 
 function getList() {
