@@ -11,10 +11,13 @@ $(document).ready(function () {
     getList();
 
     $(document).on('click', '.btn-edit-user', function () {
+
         urlUpdate = $(this).data('update');
         let url = $(this).data('action');
+
         $.get(url, (data) => {
             let {user} = data;
+           var pass = data.password;
             fillUserToModal(user);
         })
     });
@@ -54,7 +57,6 @@ $(document).ready(function () {
         $('#idDelete').modal('hide');
         callUserApi(urldelete, "", "POST")
             .then((res) => {
-                console.log(1)
                 toastr.success('Delete User Success');
                 that.parent().parent().remove();
             })

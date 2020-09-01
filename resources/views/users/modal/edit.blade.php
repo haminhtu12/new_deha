@@ -51,25 +51,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-4">
-                                    <label class="control-label pull-right"><h4>Pass Word</h4></label>
-                                </div>
-                                <div class="col-md-4 col-lg-4 inputGroupContainer">
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="mdi mdi-email"></i>
-                                            </span>
-                                        </div>
-                                        <input type="email" id="password" name="password" class="form-control" placeholder="Pass word" >
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
                         <!-- Text input-->
                         <div class="form-group">
                             <div class="row">
