@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,9 +12,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $product;
+
+    public function __construct(Product $product)
+    {
+        $this->$product = $product;
+    }
     public function index()
     {
-        //
+        return view('products.index')->with(['products'=>Product::all()]);
     }
 
     /**

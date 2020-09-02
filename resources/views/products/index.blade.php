@@ -2,8 +2,8 @@
 @section('title','Products')
 @section('content')
     @include('template.header',['title'=>'Manage  Product'])
-    @include('products.modal.add')
-    @include('products.modal.edit')
+{{--    @include('products.modal.add')--}}
+{{--    @include('products.modal.edit')--}}
     <div class="row" style="padding-top: 15px" >
         <div class="col-md-12">
             <!-- Advanced Tables -->
@@ -19,11 +19,11 @@
 
                             <div>
                                 <label for="Search">Search:</label>
-                                <input type="text" name="searchProduct" placeholder="Email or Name" id="input-search-Product" onkeyup="seachProduct()" data-action="{{route('Product.search')}}"/>
+                                <input type="text" name="searchProduct" placeholder="Email or Name" id="input-search-Product" onkeyup="seachProduct()" data-action="{{route('products.search')}}"/>
                             </div>
 
                     </div>
-                    <div class="table-responsive" id="table-Product" data-action="{{route('product.list')}}">
+                    <div class="table-responsive" id="table-Product" data-action="{{route('products.list')}}">
 
                     </div>
 

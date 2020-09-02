@@ -55,11 +55,14 @@ class User extends Authenticatable
         $user->save();
         return  $user;
     }
-    public function upDateUser($id,$all=null,$file =null){
+    public function upDateUser($id,$all=null,$avatar =null){
         $user = User::findOrFail($id);
-        $avartar = $this->insertPhoto($file);
-        $user->avatar = $avartar;
         $user ->update($all);
+        $avartar = $this->insertPhoto($avatar);
+        $user->avatar = $avartar;
+        $user->save();
+
+
         return $user;
     }
     public function deleteUser($id){
