@@ -32,4 +32,7 @@
             <!--End Advanced Tables -->
         </div>
     </div>
+    @push('js')
+        <script src="{{ asset('assets/js/user/myjs.js') }}"></script>
+    @endpush
 @endsection

@@ -16,7 +16,7 @@ class ProductController extends Controller
 
     public function __construct(Product $product)
     {
-        $this->$product = $product;
+        $this->product = $product;
     }
     public function index()
     {
@@ -41,7 +41,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product =   Product::create($request->all());
+       return  response(['product'=>$product]);
     }
 
     /**
@@ -63,7 +64,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        return response()->json([
+            'product'=>$this->product->find($id),
+        ]);
     }
 
     /**
@@ -75,7 +78,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        $product->update($request->all());
+        return  response()->json(['product'=>$product]);
+
     }
 
     /**
@@ -86,6 +92,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return  response()->json(['product'=>$product]);
+
     }
+    public function list(){
+        $product = Product::all();
+        return view('products.list')->with(['products'=>$product]);
+    }
+
 }

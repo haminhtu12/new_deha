@@ -6,7 +6,8 @@
 
 <script src = "{{asset('admin/js/my_js.js')}}"></script>
 <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('assets/js/user/myjs.js')}}"></script>
+{{--<script src="{{asset('assets/js/user/myjs.js')}}"></script>--}}
+{{--<script src="{{asset('assets/js/product/myjs.js')}}"></script>--}}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script>
 
 <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -27,3 +28,4 @@
 <script src="{{asset('assets/js/date-range.js')}}"></script>
 <script src="{{asset('assets/js/map.js')}}"></script>
 <script src="{{asset('assets/js/custom.js')}}"></script>
+@stack('js')

@@ -94,6 +94,7 @@ class User extends Authenticatable
     }
     public static function insertPhoto($file =null)
     {
+        $filename = '';
         if($file !=null)
         {
             $filename    = $file->getClientOriginalName();
