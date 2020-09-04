@@ -122,9 +122,11 @@ class User extends Authenticatable
 	        }
 	    }
 
-	    public function hasAnyRole($roles): bool
+	    public function hasAnyRole($roles=[]): bool
 	    {
-    	        return (bool) $this->roles()->whereIn('name', $roles)->first();
+    	        return count($roles) > 0
+                    ? $this->roles()->whereIn('name', $roles)->count()> 0
+                    : false;
 	    }
 
 	    public function hasRole($role): bool
