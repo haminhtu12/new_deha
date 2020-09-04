@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Intervention\Image\Facades\Image;
+use App\Role;
 
 class User extends Authenticatable
 {
@@ -40,6 +41,10 @@ class User extends Authenticatable
     ];
     public function orders() {
         return $this->hasMany('App\Orders','user_id');
+    }
+    public  function roles(){
+        return $this->belongsToMany('App\Role');
+
     }
     public function createUser($name,$email,$phone,$status,$address,$password,$avatar){
         $user = new User();
@@ -105,4 +110,26 @@ class User extends Authenticatable
         }
         return $filename;
     }
+    public function checkRoles($roles)
+    {
+        if ( ! is_array($roles)) {
+	            $roles = [$roles];
+	        }
+
+	        if ( ! $this->hasAnyRole($roles)) {
+    	            auth()->logout();
+	            abort(404);
+	        }
+	    }
+
+	    public function hasAnyRole($roles): bool
+	    {
+    	        return (bool) $this->roles()->whereIn('name', $roles)->first();
+	    }
+
+	    public function hasRole($role): bool
+	    {
+    	        return (bool) $this->roles()->where('name', $role)->first();
+	    }
+
 }

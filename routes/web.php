@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome')->name('');
+    return view('auth.login')->name('');
 });
 Route::get('index', function () {
     return view('layouts.master');
@@ -46,3 +46,7 @@ Route::group(['prefix'=>'category'],function(){
     Route::post('/add','CategoryController@store')->name('category.store');
     Route::get('/list','CategoryController@list')->name('category.list');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
