@@ -38,7 +38,7 @@ Route::group(['prefix'=>'products'],function(){
     Route::post('/add','ProductController@store')->name('product.store');
     Route::get('/list','ProductController@list')->name('products.list');
 });
-Route::group(['prefix'=>'categories'],function(){
+Route::group(['prefix'=>'category'],function(){
     Route::get('/','CategoryController@index')->name('category.index');
     Route::get('/edit/{id}','CategoryController@edit')->name('category.edit');
     Route::post('/update/{id}','CategoryController@update')->name('category.update');

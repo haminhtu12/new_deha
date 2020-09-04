@@ -10,7 +10,7 @@ $(document).ready(function () {
     let urlList = '';
     getList();
 
-    //edit
+    //add
     $(document).on('click', '#add-submit-product', function () {
         let urlAddProduct = 'products/add';
         let data = new FormData($('#add_product_form')[0]);
@@ -32,6 +32,8 @@ $(document).ready(function () {
 
 
     });
+
+    //edit
     $(document).on('click', '.btn-edit-product', function () {
         urlUpdate = $(this).data('update');
         let url = $(this).data('action');
@@ -65,27 +67,6 @@ $(document).ready(function () {
 
     })
 
-    $(document).on('click', '#cancell-submit-add', function (e) {
-            // $('#myModal').modal('hide');
-        // // e.preventDefault();
-        // //
-        // // let data = new FormData($('#add-product_form')[0]);
-        // // callUserApi(urlUpdate, data, 'POST')
-        // //     .then(() => {
-        // //         getList()
-        // //         $('#myModal').modal('hide');
-        // //     })
-        // //     .catch((res)=>{
-        // //         if (res.status == 422){
-        // //             $(".error").css('display','block');
-        // //             $.each( res.responseJSON.errors, function( key, value ) {
-        // //                 $(".error").find("ul").append('<li>'+value+'</li>');
-        // //             });
-        // //         }
-        // //     })
-        // //
-        // //
-    })
     let that = '';
 
     //delete

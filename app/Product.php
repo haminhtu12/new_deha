@@ -15,37 +15,28 @@ class Product extends Model
     public function category() {
         return $this->belongsTo('App\Category','category_id','id');
     }
-
-    public function upDateProduct($id,$all=null,$avatar =null){
-        $product = Product::findOrFail($id);
-        $product ->update($all);
-        $avartar = $this->insertPhoto($avatar);
-        $product->avatar = $avartar;
-        $product->save();
-
-
-        return $product;
+    public function getIndex() {
+        return $this->all();
     }
-    public function deleteProduct($id){
-        $product = Product::findOrFail($id);
-        $product->delete();
+    public  function createPro($data){
+        return $this->create($data) ;
     }
-    public function searchProduct($searchText){
-        return Product::select()->where('name','like',"%$searchText%")->get();
+    public  function getEdit($id){
+        return $this->find($id) ;
     }
-    public static function insertPhoto($file =null)
-    {
-        if($file !=null)
-        {
-            $filename    = $file->getClientOriginalName();
+    public  function updatePro($id,$data){
+        $product =  $this->find($id);
+        return $product->update($data);
+    }
+    public function deletePro($id){
+        $pro   = $this->find($id)->delete();
+    }
+    public function listPro(){
+        return $this->all();
+    }
 
-            $image_resize = Image::make($file->getRealPath());
-            $image_resize->resize(60, 60);
-            $image_resize->save(public_path('images/product/' .$filename));
-        }
-        return $filename;
-    }
-//    public function updateProduct(){
-//
-//    }
+
+
+
+
 }

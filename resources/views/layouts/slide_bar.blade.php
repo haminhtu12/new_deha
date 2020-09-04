@@ -91,7 +91,7 @@
 
 
                             <li >
-                                <a class="sidenav-item-link" href="{{asset('category.index')}}">
+                                <a class="sidenav-item-link" href="{{ route('category.index') }}">
                                     <span class="nav-text">Category</span>
 
                                 </a>
@@ -103,7 +103,7 @@
 
 
                             <li >
-                                <a class="sidenav-item-link" href="{{route('products.index')}}">
+                                <a class="sidenav-item-link" href="{{ route('products.index') }}">
                                     <span class="nav-text">Product</span>
 
                                 </a>
@@ -111,12 +111,12 @@
 
 
 
-                            <li >
-                                <a class="sidenav-item-link" href="{{asset('proDetail_management')}}">
-                                    <span class="nav-text">Product Details</span>
+{{--                            <li >--}}
+{{--                                <a class="sidenav-item-link" href="{{route('proDetail_management')}}">--}}
+{{--                                    <span class="nav-text">Product Details</span>--}}
 
-                                </a>
-                            </li>
+{{--                                </a>--}}
+{{--                            </li>--}}
 
 
 
