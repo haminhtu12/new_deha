@@ -41,7 +41,14 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        return  response(['user'=>$this->user->createUser($request->name,$request->email,$request->phone,$request->status,$request->address,$request->password,$request->file('avatar'))]);
+        return  response(['user'=>$this->user->createUser(
+                    $request->name,
+                    $request->email,
+                    $request->phone,
+                    $request->status,
+                    $request->address,
+                    $request->password,
+                    $request->file('avatar'))]);
     }
 
     /**

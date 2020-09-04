@@ -65,7 +65,7 @@
                          data-parent="#sidebar-menu">
                         <div class="sub-menu">
                             <li >
-                                <a class="sidenav-item-link" href="#">
+                                <a class="sidenav-item-link" href="{{route('user.index')}}">
                                     <span class="nav-text">Users</span>
                                 </a>
                             </li>
@@ -91,7 +91,7 @@
 
 
                             <li >
-                                <a class="sidenav-item-link" href="{{asset('cate_management')}}">
+                                <a class="sidenav-item-link" href="{{asset('category.index')}}">
                                     <span class="nav-text">Category</span>
 
                                 </a>
@@ -103,7 +103,7 @@
 
 
                             <li >
-                                <a class="sidenav-item-link" href="{{asset('product_management')}}">
+                                <a class="sidenav-item-link" href="{{route('products.index')}}">
                                     <span class="nav-text">Product</span>
 
                                 </a>

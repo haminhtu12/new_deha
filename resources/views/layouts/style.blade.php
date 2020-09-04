@@ -15,3 +15,4 @@
 <!-- FAVICON -->
 <link href="{{asset('assets/img/favicon.png')}}" rel="shortcut icon" />
 <link rel="stylesheet" href="{{asset('assets/css/user/mystyle.css')}}">
+{{--<link rel="stylesheet" href="{{asset('assets/css/product/mystyle.css')}}">--}}

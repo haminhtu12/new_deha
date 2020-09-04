@@ -1,4 +1,4 @@
-<div class="modal fade" id="idDelete">
+<div class="modal fade" id="modalDeleteProduct">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -10,7 +10,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <button class="btn btn-danger" id="confirmDeleteUser" >Confirm</button>
+                <button class="btn btn-danger" id="confirmDeleteProduct" >Confirm</button>
                 <button class="btn btn-secondary">Cancel</button>
             </div>
 

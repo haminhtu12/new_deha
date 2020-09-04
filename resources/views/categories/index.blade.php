@@ -1,14 +1,14 @@
 @extends('layouts.master')
-@section('title','Products')
+@section('title','Categories')
 @section('content')
     <div class="row pad-botm">
         <div class="col-md-12">
-            <div id="openFormAdd" class="float-right"><button class="btn btn-primary float-right" data-toggle="modal" data-target="#addModalProduct" data-list = {{route('products.list')}}>Thêm Mới</button>
+            <div id="openFormAdd" class="float-right"><button class="btn btn-primary float-right" data-toggle="modal" data-target="#addModalCategory" data-list = {{route('categories.list')}}>Thêm Mới</button>
             </div>
-            <h4 class="header-line">Product Mananger</h4>
+            <h4 class="header-line">Category Mananger</h4>
         </div>
     </div>
-    @include('products.modal.add')
+    @include('categories.modal.add')
 {{--    @include('products.modal.edit')--}}
     <div class="row" style="padding-top: 15px" >
         <div class="col-md-12">
