@@ -91,7 +91,7 @@
 
 
                             <li >
-                                <a class="sidenav-item-link" href="{{asset('cate_management')}}">
+                                <a class="sidenav-item-link" href="{{asset('category.index')}}">
                                     <span class="nav-text">Category</span>
 
                                 </a>

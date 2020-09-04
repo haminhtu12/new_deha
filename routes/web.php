@@ -37,6 +37,12 @@ Route::group(['prefix'=>'products'],function(){
     Route::post('/delete/{id}','ProductController@destroy')->name('product.delete');
     Route::post('/add','ProductController@store')->name('product.store');
     Route::get('/list','ProductController@list')->name('products.list');
-    Route::get('/search','ProductController@search')->name('products.search');
-    //Route::get('/filter-users/{field}','ProductController@filter')->name('products.filter');
+});
+Route::group(['prefix'=>'categories'],function(){
+    Route::get('/','CategoryController@index')->name('category.index');
+    Route::get('/edit/{id}','CategoryController@edit')->name('category.edit');
+    Route::post('/update/{id}','CategoryController@update')->name('category.update');
+    Route::post('/delete/{id}','CategoryController@destroy')->name('category.delete');
+    Route::post('/add','CategoryController@store')->name('category.store');
+    Route::get('/list','CategoryController@list')->name('category.list');
 });
