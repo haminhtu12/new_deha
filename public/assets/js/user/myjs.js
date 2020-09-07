@@ -69,6 +69,7 @@ $(document).ready(function () {
         let data = new FormData($('#add-contact_form')[0]);
         callUserApi(urlAddUser, data, "POST")
             .then((res) => {
+                alert(1);
                 toastr.success(" Create Success  User");
                 $('#addModalUser').modal('hide');
                 getList();

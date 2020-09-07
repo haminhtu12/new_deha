@@ -29,7 +29,28 @@ class CreateUserRequest extends FormRequest
             'email'=>'required|unique:users|min:5',
             'address'=>'required|min:5',
             'password'=>'required|min:6',
-            'status'=>'required',
         ];
     }
+    public function messages()
+    {
+        return [
+            'required' => 'Bạn chưa nhập :attribute',
+            'min' => ':attribute Phải có ít nhất 5 kí tự',
+            'unique' => ':attribute đã tồn tại'
+
+        ];
+    }
+    public function attributes()
+    {
+        return [
+            'name' => 'Tên sản phẩm',
+            'phone' => 'Sô điện thoại ',
+            'email' => 'email',
+            'address' => 'địa chỉ',
+            'password' => 'mật khẩu',
+
+        ];
+    }
+
+
 }

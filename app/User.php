@@ -18,8 +18,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $table = 'users';
+
     protected $fillable = [
-        'name', 'email', 'password','address','status','avatar','phone'
+        'name',
+        'email',
+        'password',
+        'address',
+        'status',
+        'avatar',
+        'phone'
     ];
 
     /**
@@ -28,7 +35,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -39,99 +47,106 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function orders() {
-        return $this->hasMany('App\Orders','user_id');
+
+    public function orders()
+    {
+        return $this->hasMany(Orders::class, 'user_id');
     }
-    public  function roles(){
-        return $this->belongsToMany('App\Role');
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
 
     }
-    public function createUser($name,$email,$phone,$status,$address,$password,$avatar){
-        $user = new User();
-        $user->name = $name;
-        $user->email = $email;
-        $user->phone = $phone;
-        $user->status = $status;
-        $user->address = $address;
-        $user->password = $password;
-        $user->level = 1;
-        $avartar = $this->insertPhoto($avatar);
-        $user->avatar = $avartar;
-        $user->save();
-        return  $user;
-    }
-    public function upDateUser($id,$all=null,$avatar =null){
-        $user = User::findOrFail($id);
-        $user ->update($all);
-        $avartar = $this->insertPhoto($avatar);
-        $user->avatar = $avartar;
-        $user->save();
 
-
+    public function createUser($data, $avatar)
+    {
+        $data['avatar'] = $this->insertPhoto($avatar);
+        $user = $this->create($data);
         return $user;
     }
-    public function deleteUser($id){
+
+    public function upDateUser($id, $data = null, $avatar = null)
+    {
+        $user = User::findOrFail($id);
+        $data['avatar'] = $this->insertPhoto($avatar);
+        $user->update($data);
+        $user->save();
+        return $user;
+    }
+
+    public function deleteUser($id)
+    {
         $user = User::findOrFail($id);
         $user->delete();
     }
-    public function searchUser($searchText){
-        return User::select()->where('name','like',"%$searchText%")->orwhere('email','like',"%$searchText%")->get();
+
+    public function searchUser($searchText)
+    {
+
+        return User::select()->where('name', 'like', "%$searchText%")->where('email', 'like', "%$searchText%")->get();
     }
-    public function changeStatusUser($id){
-        $user = User::find($id);
-        if($user->status == 'active'){
+
+    public function changeStatusUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->status == 'active') {
             $user->status = 'inactive';
-        }else{
+        } else {
             $user->status = 'active';
         }
         $user->save();
         return $user;
     }
-    public function fileterUserStatus($field){
-        if ($field =='all'){
-            $users = User::all();
-        }elseif ($field =='active'){
-            $users = User::select()->where('status',$field)->get();
-        }else{
-            $users = User::select()->where('status',$field)->get();
-        }
-        return $users;
+
+    public function filterUserStatus($field)
+    {
+        $field = $field == 'all' ? null : $field;
+
+        return $this->withActive($field)->get();
     }
-    public static function insertPhoto($file =null)
+
+    public function scopeWithActive($query, $active)
+    {
+        return $active ? $query->where('status', $active) : null;
+    }
+
+    public static function insertPhoto($file = null)
     {
         $filename = '';
-        if($file !=null)
-        {
-            $filename    = $file->getClientOriginalName();
+        if ($file != null && $file != '') {
+
+            $filename = $file->getClientOriginalName();
 
             $image_resize = Image::make($file->getRealPath());
             $image_resize->resize(60, 60);
-            $image_resize->save(public_path('images/Avater/' .$filename));
+            $image_resize->save(public_path('images/Avater/'.$filename));
         }
         return $filename;
     }
+
     public function checkRoles($roles)
     {
-        if ( ! is_array($roles)) {
-	            $roles = [$roles];
-	        }
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+        if (!$this->hasAnyRole($roles)) {
+            auth()->logout();
+            abort(404);
+        }
+    }
 
-	        if ( ! $this->hasAnyRole($roles)) {
-    	            auth()->logout();
-	            abort(404);
-	        }
-	    }
+    public function hasAnyRole($roles = []): bool
+    {
+        return count($roles) > 0
+            ? $this->roles()->whereIn('name', $roles)->count() > 0
+            : false;
+    }
 
-	    public function hasAnyRole($roles=[]): bool
-	    {
-    	        return count($roles) > 0
-                    ? $this->roles()->whereIn('name', $roles)->count()> 0
-                    : false;
-	    }
-
-	    public function hasRole($role): bool
-	    {
-    	        return (bool) $this->roles()->where('name', $role)->first();
-	    }
+    public function hasRole($role): bool
+    {
+        return (bool)$this->roles()->where('name', $role)->first();
+    }
 
 }

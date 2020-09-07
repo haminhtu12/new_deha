@@ -8,35 +8,27 @@ use Intervention\Image\Facades\Image;
 class Product extends Model
 {
     protected $table = "products";
-    protected $fillable = ['name','category_id'];
-    public function productDetail() {
-        return $this->hasMany('App\Product_detail','product_id');
+    protected $fillable = ['name', 'category_id'];
+
+    public function productDetails()
+    {
+        return $this->hasMany(Product_details::class, 'product_id');
     }
-    public function category() {
-        return $this->belongsTo('App\Category','category_id','id');
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-    public function getIndex() {
-        return $this->all();
+    public function getEdit($id)
+    {
+        return $this->findOrFail($id);
     }
-    public  function createPro($data){
-        return $this->create($data) ;
-    }
-    public  function getEdit($id){
-        return $this->find($id) ;
-    }
-    public  function updatePro($id,$data){
-        $product =  $this->find($id);
+
+    public function updateProduct($id, $data)
+    {
+        $product = $this->findOrFail($id);
         return $product->update($data);
     }
-    public function deletePro($id){
-        $pro   = $this->find($id)->delete();
-    }
-    public function listPro(){
-        return $this->all();
-    }
-
-
-
 
 
 }

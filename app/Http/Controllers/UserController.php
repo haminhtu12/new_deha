@@ -17,15 +17,16 @@ class UserController extends Controller
     {
         $this->user = $user;
     }
+
     public function index()
     {
-       return view('users.index')->with(['users'=>$this->user->all()]);
+        return view('users.index')->with(['users' => $this->user->all()]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return void
      */
     public function create()
     {
@@ -36,26 +37,20 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateUserRequest $request
      * @return Response
      */
     public function store(CreateUserRequest $request)
     {
-        return  response(['user'=>$this->user->createUser(
-                    $request->name,
-                    $request->email,
-                    $request->phone,
-                    $request->status,
-                    $request->address,
-                    $request->password,
-                    $request->file('avatar'))]);
+        $user = $this->user->createUser($request->all(), $request->file('avatar'));
+        return response(['user' => $user]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @return void
      */
     public function show($id)
     {
@@ -65,27 +60,27 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         return response()->json([
-            'user'=>$this->user->find($id),
+            'user' => $this->user->findOrFail($id),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
+     * @param EditUserRequest $request
+     * @param int $id
      * @return Response
      */
-    public function update(EditUserRequest $request, $id)
+    public function update(EditUserRequest $request, int $id)
     {
-        $user =  $this->user->upDateUser($id,$request->all(),$request->file('avatar'));
-        return  response()->json(['user'=>$user]);
+        $user = $this->user->upDateUser($id, $request->all(), $request->file('avatar'));
+        return response()->json(['user' => $user]);
 
 
     }
@@ -93,25 +88,32 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $this->user->deleteUser($id);
-        return  response()->json(['data'=>'remove']);
+        return response()->json(['data' => 'remove']);
     }
 
-    public function list(){
-        return view('users.list')->with(['users'=>$this->user->all()]);
+    public function list()
+    {
+        return view('users.list')->with(['users' => $this->user->all()]);
     }
-    public function search(Request $request){
-        return view('users.list')->with(['users'=>$this->user->searchUser($request->search)]);
+
+    public function search(Request $request)
+    {
+        return view('users.list')->with(['users' => $this->user->searchUser($request->search)]);
     }
-    public function changeStatus($id){
-         $this->user->changeStatusUser($id);
+
+    public function changeStatus($id)
+    {
+        $this->user->changeStatusUser($id);
     }
-    public function filter($field){
-        return view('users.list')->with(['users'=>$this->user->fileterUserStatus($field)]);
+
+    public function filter($field)
+    {
+        return view('users.list')->with(['users' => $this->user->filterUserStatus($field)]);
     }
 }

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProductRequest;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     protected $product;
 
@@ -18,15 +20,16 @@ class ProductController extends Controller
     {
         $this->product = $product;
     }
+
     public function index()
     {
-        return view('products.index')->with(['products'=>$this->product->getIndex()]);
+        return view('products.index')->with(['products' => $this->product->all()]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function create()
     {
@@ -36,19 +39,20 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
-       return  response(['product'=>$this->product->createPro($request->all())]);
+        $product = $this->product->create($request->all());
+        return response(['product' => $product]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return void
      */
     public function show($id)
     {
@@ -58,41 +62,44 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        return response()->json([
-            'product'=>$this->product->getEdit($id),
-        ]);
+        $product = $this->product->findOrFail($id);
+        return response()->json(['product' => $product]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateProductRequest $request, $id)
     {
-        return  response()->json(['product'=>$this->product->updatePro($id,$request->all())]);
+        $product = $this->product->updateProduct($id, $request->all());
+        return response()->json(['product' => $product]);
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return void
      */
     public function destroy($id)
     {
-         $this->product->deletePro($id);
+        $this->product->destroy($id);
     }
-    public function list(){
-        return view('products.list')->with(['products'=>$this->product->listPro()]);
+
+    public function list()
+    {
+        $products = $this->product->all();
+        return view('products.list')->with(['products' => $products]);
     }
 
 }

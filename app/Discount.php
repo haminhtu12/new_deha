@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Discount extends Model
 {
-    protected $table = "discount";
-    public  function product_detail(){
-        return $this->belongsTo('App\Product_details','productDetails_id');
+    protected $table = "discounts";
+
+    public function product_detail()
+    {
+        return $this->belongsTo(Product_details::class, 'product_details_id');
     }
 }
