@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\ProductRequest;
 use App\Product;
 use Illuminate\Http\Request;
@@ -18,7 +19,10 @@ class ProductController extends Controller
 
     public function index()
     {
-        return view('products.index')->with(['products' => $this->product->all()]);
+        return view('products.index')->with([
+            'products' => $this->product->all(),
+            'categories' => Category::all(),
+            ]);
     }
     public function store(ProductRequest $request)
     {

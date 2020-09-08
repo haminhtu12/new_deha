@@ -22,14 +22,6 @@
             @endif
             <tr class="odd gradeX " >
                 <td class="center ">{{$loop->iteration}}</td>
-                {{--                                    @php--}}
-                {{--                                        if (isset($search)){--}}
-                {{--                                        $user->email =  Hightlight::show($search,$user->email);--}}
-                {{--                                        $user->name =  Hightlight::show($search,$user->name);--}}
-                {{--                                        }--}}
-
-
-                {{--                                    @endphp--}}
                 <td class="center" id="avatar{{$user->id}}">@if($user->avatar != '')<img src="{{asset("images/avatar/$user->avatar")}}" alt="">@endif</td>
                 <td class="center" id="name{{$user->id}}">{!!$user->name!!}</td>
                 <td class="center" id="email{{$user->id}}">{!!$user->email!!}</td>

@@ -43,14 +43,14 @@ class UserController extends Controller
         $this->user->destroy($id);
         return response()->json(['data' => 'remove']);
     }
-    public function list()
-    {
-        return view('users.list')->with(['users' => $this->user->all()]);
-    }
+//    public function list()
+//    {
+//        return view('users.list')->with(['users' => $this->user->all()]);
+//    }
 
     public function search(Request $request)
     {
-        return view('users.list')->with(['users' => $this->user->searchUser($request->search)]);
+        return view('users.list')->with(['users' => $this->user->search($request->search)]);
     }
 
     public function changeStatus($id)

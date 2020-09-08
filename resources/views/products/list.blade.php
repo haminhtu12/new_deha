@@ -12,14 +12,6 @@
         @foreach($products as $product)
             <tr class="odd gradeX " >
                 <td class="center ">{{$loop->iteration}}</td>
-                {{--                                    @php--}}
-                {{--                                        if (isset($search)){--}}
-                {{--                                        $user->email =  Hightlight::show($search,$user->email);--}}
-                {{--                                        $user->name =  Hightlight::show($search,$user->name);--}}
-                {{--                                        }--}}
-
-
-                {{--                                    @endphp--}}
                 <td class="center" id="name{{$product->id}}">{!!$product->name!!}</td>
                 <td class="center" id="name{{$product->id}}">{!!$product->category_id!!}</td>
                 <td class="center">

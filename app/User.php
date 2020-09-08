@@ -5,14 +5,18 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Role;
+use phpDocumentor\Reflection\Types\This;
+
+const FILE_PATH = 'images/avatar/';
 
 class User extends Authenticatable
 {
     use Notifiable;
-    protected $table = 'users';
 
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
@@ -54,28 +58,27 @@ class User extends Authenticatable
 
     public function upDateUser($id, $data = null, $avatar = null)
     {
-        $user = User::findOrFail($id);
-        $data['avatar'] = $this->insertPhoto($avatar);
+        $user = $this->findOrFail($id);
+        $data['avatar'] = $this->updatePhoto($avatar, $user['avatar']);
         $user->update($data);
-        $user->save();
         return $user;
     }
 
-    public function searchUser($searchText)
+    public function search($searchText = '')
     {
-
-        return User::select()->where('name', 'like', "%$searchText%")->Orwhere('email', 'like', "%$searchText%")->get();
+        if ($searchText) {
+            $user = $this->select()->where('name', 'like', "%$searchText%")->Orwhere('email', 'like',
+                "%$searchText%")->get();
+        } else {
+            $user = $this->all();
+        }
+        return $user;
     }
 
     public function changeStatusUser($id)
     {
-        $user = User::findOrFail($id);
-
-        if ($user->status == 'active') {
-            $user->status = 'inactive';
-        } else {
-            $user->status = 'active';
-        }
+        $user = $this->findOrFail($id);
+        $user->status = $user->status == 'inactive' ? 'active' : 'inactive';
         $user->save();
         return $user;
     }
@@ -83,7 +86,6 @@ class User extends Authenticatable
     public function filterUserStatus($field)
     {
         $field = $field == 'all' ? null : $field;
-
         return $this->withActive($field)->get();
     }
 
@@ -92,19 +94,34 @@ class User extends Authenticatable
         return $active ? $query->where('status', $active) : null;
     }
 
-    public static function insertPhoto($file = null)
+    public function insertPhoto($file = null)
     {
         $filename = '';
-        $path = 'images/avatar/';
-        if ($file != null && $file != '') {
+        if ($this->isVerify($file)) {
             $filename = $file->getClientOriginalName();
             $image_resize = Image::make($file->getRealPath());
             $image_resize->resize(60, 60);
-            $image_resize->save(public_path($path . $filename));
+            $image_resize->save(public_path(FILE_PATH . time() . $filename));
+        }
+        return time() . $filename;
+    }
+
+    public function isVerify($file): bool
+    {
+        return ($file != null && $file != '');
+    }
+
+    public function updatePhoto($file, $currentFile)
+    {
+        $filename = $currentFile;
+        if ($this->isVerify($file)) {
+            if ($currentFile) {
+                File::delete(FILE_PATH . $currentFile);
+            }
+            $filename = $this->insertPhoto($file);
         }
         return $filename;
     }
-
 
     public function hasAnyRole($roles = []): bool
     {

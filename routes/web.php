@@ -25,7 +25,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'role:admin,user'], function 
     Route::post('/update/{id}', 'UserController@update')->name('user.update');
     Route::post('/delete/{id}', 'UserController@destroy')->name('user.delete');
     Route::post('/add', 'UserController@store')->name('user.store');
-    Route::get('/list', 'UserController@list')->name('user.list');
+    Route::get('/list', 'UserController@search')->name('user.list');
     Route::get('/search', 'UserController@search')->name('user.search');
     Route::get('/change-status/{id}', 'UserController@changeStatus')->name('user.changeStatus');
     Route::get('/filter-users/{field}', 'UserController@filter')->name('user.filter');
@@ -37,6 +37,14 @@ Route::group(['prefix' => 'products', 'middleware' => 'role:user,admin'], functi
     Route::post('/delete/{id}', 'ProductController@destroy')->name('product.delete');
     Route::post('/add', 'ProductController@store')->name('product.store');
     Route::get('/list', 'ProductController@list')->name('products.list');
+});
+Route::group(['prefix' => 'product-details', 'middleware' => 'role:user,admin'], function () {
+    Route::get('/', 'ProductDetailController@index')->name('product-details.index');
+    Route::get('{id}/edit', 'ProductDetailController@edit')->name('product-details.edit');
+    Route::post('/update/{id}', 'ProductDetailController@update')->name('product-details.update');
+    Route::post('/delete/{id}', 'ProductDetailController@destroy')->name('product-details.delete');
+    Route::post('/add', 'ProductDetailController@store')->name('product-details.store');
+    Route::get('/list', 'ProductDetailController@list')->name('product-details.list');
 });
 Route::group(['prefix' => 'categories', 'middleware' => 'role:user,admin'], function () {
     Route::get('/', 'CategoryController@index')->name('category.index');

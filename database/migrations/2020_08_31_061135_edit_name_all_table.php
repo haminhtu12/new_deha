@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class EditNameAllTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::rename('category', 'categories');
@@ -18,12 +13,6 @@ class EditNameAllTable extends Migration
         Schema::rename('order', 'orders');
         Schema::rename('product', 'products');
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::rename('categories', 'category');

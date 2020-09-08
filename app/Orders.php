@@ -8,7 +8,7 @@ class Orders extends Model
 {
     protected $table = "order";
 
-    public function order_detail()
+    public function order_details()
     {
         return $this->hasMany(OrderDetails::class, 'orders_id');
     }

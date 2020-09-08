@@ -41,14 +41,14 @@
                                 </div>
                                 <div class="col-md-4 col-lg-4 inputGroupContainer">
 
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="mdi mdi-email"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" id="addCategory" name="category_id" class="form-control" placeholder="CategoryId" >
-                                    </div>
+                                    <select name="category_id" id="" class="form-control">
+                                        <option value=""> -- Select One --</option>
+                                        @foreach ($categories as $category)
+                                            <option
+                                                value="{{ $category->id }}">{{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
 
                                 </div>
                             </div>
