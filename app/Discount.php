@@ -10,6 +10,6 @@ class Discount extends Model
 
     public function product_detail()
     {
-        return $this->belongsTo(Product_details::class, 'product_details_id');
+        return $this->belongsTo(ProductDetails::class, 'product_details_id');
     }
 }

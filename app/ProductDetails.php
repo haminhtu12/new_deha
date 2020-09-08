@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product_details extends Model
+class ProductDetails extends Model
 {
     protected $table = "product_details";
 
     public function product_detail()
     {
-        return $this->belongsTo(Order_details::class, 'product_details_id');
+        return $this->belongsTo(OrderDetails::class, 'product_details_id');
     }
 
     public function discount()

@@ -30,7 +30,7 @@
 
 
                 {{--                                    @endphp--}}
-                <td class="center" id="avatar{{$user->id}}">@if($user->avatar != '')<img src="{{asset("images/Avater/$user->avatar")}}" alt="">@endif</td>
+                <td class="center" id="avatar{{$user->id}}">@if($user->avatar != '')<img src="{{asset("images/avatar/$user->avatar")}}" alt="">@endif</td>
                 <td class="center" id="name{{$user->id}}">{!!$user->name!!}</td>
                 <td class="center" id="email{{$user->id}}">{!!$user->email!!}</td>
                 <td class="center" id="phone{{$user->id}}">{{$user->phone}}</td>

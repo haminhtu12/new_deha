@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     //add
     $(document).on('click', '#add-submit-category', function () {
-        let urlAddCategory = 'category/add';
+        let urlAddCategory = 'categories/add';
         let data = new FormData($('#add_category_form')[0]);
         callCategoryApi(urlAddCategory, data, "POST")
             .then((res) => {

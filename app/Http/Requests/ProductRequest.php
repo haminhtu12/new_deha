@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditUserRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class EditUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3',
-            'phone' => 'required|min:6',
-            'email' => 'required|email|unique:users,email,' . $this->id,
-            'address' => 'required|min:3',
-            'status' => 'required',
+            'name' => 'required|min:5:unique:products',
         ];
     }
 
@@ -36,21 +32,14 @@ class EditUserRequest extends FormRequest
     {
         return [
             'required' => 'Bạn chưa nhập :attribute',
-            'min' => ':attribute Phải có ít nhất 5 kí tự',
-            'unique' => ':attribute đã tồn tại'
+            'min' => ':attribute phải có ít nhất 5 kí tự'
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => 'Tên sản phẩm',
-            'phone' => 'Sô điện thoại ',
-            'email' => 'email',
-            'address' => 'địa chỉ',
-            'password' => 'mật khẩu',
-
+            'name' => 'tên sản phẩm'
         ];
     }
-
 }

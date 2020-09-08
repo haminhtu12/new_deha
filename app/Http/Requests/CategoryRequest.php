@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateProductRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class CreateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5:unique:products',
+            'name' => 'required|min:5:unique:categories',
         ];
     }
 
@@ -32,13 +32,14 @@ class CreateProductRequest extends FormRequest
     {
         return [
             'required' => 'Bạn chưa nhập :attribute',
-            'min' => ':attribute Phải có ít nhất 5 kí tự'
+            'min' => ':attribute phải có ít nhất 5 kí tự'
         ];
     }
+
     public function attributes()
     {
         return [
-            'name' => 'Tên sản phẩm'
+            'name' => 'danh muc sản phẩm'
         ];
     }
 }

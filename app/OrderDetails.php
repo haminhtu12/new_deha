@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order_details extends Model
+class OrderDetails extends Model
 {
     protected $table = "oder_details";
 
@@ -15,6 +15,6 @@ class Order_details extends Model
 
     public function product_detail()
     {
-        return $this->hasMany(Product_details::class, 'product_details_id');
+        return $this->hasMany(ProductDetails::class, 'product_details_id');
     }
 }

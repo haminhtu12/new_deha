@@ -13,15 +13,4 @@ class Category extends Model
     {
         return $this->hasMany(Product::class, 'category_id', 'id');
     }
-
-    public function createCate($data)
-    {
-        return $this->create($data);
-    }
-
-    public function updateCateGory($id, $data)
-    {
-        $category = $this->findOrFail($id);
-        return $category->update($data);
-    }
 }

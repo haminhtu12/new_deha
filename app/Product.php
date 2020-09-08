@@ -12,23 +12,14 @@ class Product extends Model
 
     public function productDetails()
     {
-        return $this->hasMany(Product_details::class, 'product_id');
+        return $this->hasMany(ProductDetails::class, 'product_id');
     }
 
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-    public function getEdit($id)
-    {
-        return $this->findOrFail($id);
-    }
 
-    public function updateProduct($id, $data)
-    {
-        $product = $this->findOrFail($id);
-        return $product->update($data);
-    }
 
 
 }

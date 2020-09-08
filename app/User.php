@@ -11,12 +11,6 @@ use App\Role;
 class User extends Authenticatable
 {
     use Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $table = 'users';
 
     protected $fillable = [
@@ -29,21 +23,10 @@ class User extends Authenticatable
         'phone'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -55,14 +38,17 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user');
 
     }
 
-    public function createUser($data, $avatar)
+    public function createUser($data, $avatar = null)
     {
-        $data['avatar'] = $this->insertPhoto($avatar);
-        $user = $this->create($data);
+        $user = new User();
+        if (isset($avatar) && $avatar != '') {
+            $data['avatar'] = $this->insertPhoto($avatar);
+            $user = $this->create($data);
+        }
         return $user;
     }
 
@@ -75,16 +61,10 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function deleteUser($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-    }
-
     public function searchUser($searchText)
     {
 
-        return User::select()->where('name', 'like', "%$searchText%")->where('email', 'like', "%$searchText%")->get();
+        return User::select()->where('name', 'like', "%$searchText%")->Orwhere('email', 'like', "%$searchText%")->get();
     }
 
     public function changeStatusUser($id)
@@ -115,27 +95,16 @@ class User extends Authenticatable
     public static function insertPhoto($file = null)
     {
         $filename = '';
+        $path = 'images/avatar/';
         if ($file != null && $file != '') {
-
             $filename = $file->getClientOriginalName();
-
             $image_resize = Image::make($file->getRealPath());
             $image_resize->resize(60, 60);
-            $image_resize->save(public_path('images/Avater/'.$filename));
+            $image_resize->save(public_path($path . $filename));
         }
         return $filename;
     }
 
-    public function checkRoles($roles)
-    {
-        if (!is_array($roles)) {
-            $roles = [$roles];
-        }
-        if (!$this->hasAnyRole($roles)) {
-            auth()->logout();
-            abort(404);
-        }
-    }
 
     public function hasAnyRole($roles = []): bool
     {
