@@ -22,31 +22,31 @@ class UserController extends Controller
     {
         return view('users.index')->with(['users' => $this->user->all()]);
     }
+
     public function store(CreateUserRequest $request)
     {
         $user = $this->user->createUser($request->all(), $request->file('avatar'));
         return response(['user' => $user]);
     }
+
     public function edit(int $id)
     {
         return response()->json([
             'user' => $this->user->findOrFail($id),
         ]);
     }
+
     public function update(EditUserRequest $request, int $id)
     {
         $user = $this->user->upDateUser($id, $request->all(), $request->file('avatar'));
         return response()->json(['user' => $user]);
     }
+
     public function destroy(int $id)
     {
         $this->user->destroy($id);
         return response()->json(['data' => 'remove']);
     }
-//    public function list()
-//    {
-//        return view('users.list')->with(['users' => $this->user->all()]);
-//    }
 
     public function search(Request $request)
     {

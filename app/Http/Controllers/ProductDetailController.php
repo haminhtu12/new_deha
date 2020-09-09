@@ -33,11 +33,16 @@ class ProductDetailController extends Controller
 
     public function edit($id)
     {
+        return response()->json([
+            'productDetail' => $this->productDetail->findOrFail($id),
+        ]);
 
     }
 
     public function update(Request $request, $id)
     {
+        $productDetail = $this->productDetail->upDateProductDetail($id, $request->all(), $request->file('image'));
+        return response()->json(['productDetails' => $productDetail]);
 
     }
 

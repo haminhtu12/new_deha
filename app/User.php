@@ -10,10 +10,11 @@ use Intervention\Image\Facades\Image;
 use App\Role;
 use phpDocumentor\Reflection\Types\This;
 
-const FILE_PATH = 'images/avatar/';
+define('FILE_PATH', config('pathupload.path_upload_avatar'));
 
 class User extends Authenticatable
 {
+
     use Notifiable;
 
     protected $table = 'users';
@@ -64,6 +65,36 @@ class User extends Authenticatable
         return $user;
     }
 
+    public function insertPhoto($file = null)
+    {
+        $filename = '';
+        if ($this->isVerify($file)) {
+            $filename = $file->getClientOriginalName();
+            $image_resize = Image::make($file->getRealPath());
+            $image_resize->resize(60, 60);
+            $image_resize->save(public_path(FILE_PATH . time() . $filename));
+        }
+        return time() . $filename;
+    }
+
+    public function isVerify($file): bool
+    {
+        return ($file != null && $file != '');
+    }
+
+    public function updatePhoto($file, $currentFile)
+    {
+        $filename = $currentFile;
+        if ($this->isVerify($file)) {
+            if ($currentFile) {
+                File::delete(FILE_PATH . $currentFile);
+            }
+            $filename = $this->insertPhoto($file);
+        }
+        return $filename;
+    }
+
+
     public function search($searchText = '')
     {
         if ($searchText) {
@@ -94,34 +125,6 @@ class User extends Authenticatable
         return $active ? $query->where('status', $active) : null;
     }
 
-    public function insertPhoto($file = null)
-    {
-        $filename = '';
-        if ($this->isVerify($file)) {
-            $filename = $file->getClientOriginalName();
-            $image_resize = Image::make($file->getRealPath());
-            $image_resize->resize(60, 60);
-            $image_resize->save(public_path(FILE_PATH . time() . $filename));
-        }
-        return time() . $filename;
-    }
-
-    public function isVerify($file): bool
-    {
-        return ($file != null && $file != '');
-    }
-
-    public function updatePhoto($file, $currentFile)
-    {
-        $filename = $currentFile;
-        if ($this->isVerify($file)) {
-            if ($currentFile) {
-                File::delete(FILE_PATH . $currentFile);
-            }
-            $filename = $this->insertPhoto($file);
-        }
-        return $filename;
-    }
 
     public function hasAnyRole($roles = []): bool
     {

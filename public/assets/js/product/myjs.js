@@ -21,11 +21,11 @@ $(document).ready(function () {
                 getList();
 
             })
-            .catch((res)=>{
-                if (res.status == 422){
-                    $(".error").css('display','block');
-                    $.each( res.responseJSON.errors, function( key, value ) {
-                        $(".error").find("ul").append('<li>'+value+'</li>');
+            .catch((res) => {
+                if (res.status == 422) {
+                    $(".error").css('display', 'block');
+                    $.each(res.responseJSON.errors, function (key, value) {
+                        $(".error").find("ul").append('<li>' + value + '</li>');
                     });
                 }
             })
@@ -55,11 +55,11 @@ $(document).ready(function () {
                 $('#editModal').modal('hide');
                 toastr.success('Edit Product sucess');
             })
-            .catch((res)=>{
-                if (res.status == 422){
-                    $(".error").css('display','block');
-                    $.each( res.responseJSON.errors, function( key, value ) {
-                        $(".error").find("ul").append('<li>'+value+'</li>');
+            .catch((res) => {
+                if (res.status == 422) {
+                    $(".error").css('display', 'block');
+                    $.each(res.responseJSON.errors, function (key, value) {
+                        $(".error").find("ul").append('<li>' + value + '</li>');
                     });
                 }
             })
@@ -85,10 +85,6 @@ $(document).ready(function () {
                 that.parent().parent().remove();
             })
     })
-
-
-
-
 
 
 });
