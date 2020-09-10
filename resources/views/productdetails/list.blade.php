@@ -32,7 +32,7 @@
 
                     <button class="btn btn-primary btn-delete-product-detail" data-toggle="modal"
                             data-target="#modalDeleteProduct"
-                            data-delete="{{route('product.delete',$productDetail->id)}}">Delete
+                            data-delete="{{route('product-details.delete',$productDetail->id)}}">Delete
                     </button>
                 </td>
             </tr>

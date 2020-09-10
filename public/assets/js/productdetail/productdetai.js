@@ -74,9 +74,10 @@ $(document).ready(function () {
     // confirm delete
     $(document).on('click', '#confirmDeleteProduct', function () {
         $('#modalDeleteProduct').modal('hide');
-
+        console.log(urldelete)
         callProductDetailApi(urldelete, null, "POST")
             .then((res) => {
+                console.log(res);
                 toastr.success('Delete Product Success');
                 that.parent().parent().remove();
             })

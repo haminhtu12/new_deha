@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-use App\Role;
+use App\Model\Role;
 use phpDocumentor\Reflection\Types\This;
 
 define('FILE_PATH', config('pathupload.path_upload_avatar'));
@@ -35,11 +35,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function orders()
-    {
-        return $this->hasMany(Orders::class, 'user_id');
-    }
 
     public function roles()
     {
@@ -94,19 +89,12 @@ class User extends Authenticatable
         return $filename;
     }
 
-
-    public function search($searchText = '')
+    public function search($searchText, $field)
     {
-        if ($searchText) {
-            $user = $this->select()->where('name', 'like', "%$searchText%")->Orwhere('email', 'like',
-                "%$searchText%")->get();
-        } else {
-            $user = $this->all();
-        }
-        return $user;
+        return !$field ? $this->withSearch($searchText)->paginate(5) : $this->withStatus($field)->paginate(5);
     }
 
-    public function changeStatusUser($id)
+    public function changeStatus($id)
     {
         $user = $this->findOrFail($id);
         $user->status = $user->status == 'inactive' ? 'active' : 'inactive';
@@ -114,15 +102,15 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function filterUserStatus($field)
+    public function scopeWithSearch($query, $searchText)
     {
-        $field = $field == 'all' ? null : $field;
-        return $this->withActive($field)->get();
+        return $searchText ? $query->where('name', 'like', "%$searchText%")
+            ->Orwhere('email', 'like', "%$searchText%") : null;
     }
 
-    public function scopeWithActive($query, $active)
+    public function scopeWithStatus($query, $active)
     {
-        return $active ? $query->where('status', $active) : null;
+        return $active ? $active != 'all' ? $query->where('status', $active) : null : null;
     }
 
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\ProductRequest;
-use App\Product;
+use App\Model\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

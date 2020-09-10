@@ -41,9 +41,13 @@
                     <button class="btn btn-primary btn-delete-user" data-toggle="modal" data-target="#idDelete" data-delete = "{{route('user.delete',$user->id)}}" >Delete</button>
                 </td>
             </tr>
+
         @endforeach
         @include('users.modal.delete')
 
         </tbody>
+
     </table>
+    <div id="pagination">{{{ $users->links() }}}</div>
+
 </div>

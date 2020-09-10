@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -18,7 +16,7 @@ $(document).ready(function () {
 
         $.get(url, (data) => {
             let {user} = data;
-           var pass = data.password;
+            var pass = data.password;
             fillUserToModal(user);
         })
     });
@@ -32,11 +30,11 @@ $(document).ready(function () {
                 getList()
                 $('#myModal').modal('hide');
             })
-            .catch((res)=>{
-                if (res.status == 422){
-                    $(".error").css('display','block');
-                    $.each( res.responseJSON.errors, function( key, value ) {
-                        $(".error").find("ul").append('<li>'+value+'</li>');
+            .catch((res) => {
+                if (res.status == 422) {
+                    $(".error").css('display', 'block');
+                    $.each(res.responseJSON.errors, function (key, value) {
+                        $(".error").find("ul").append('<li>' + value + '</li>');
                     });
                 }
             })
@@ -69,20 +67,20 @@ $(document).ready(function () {
         let data = new FormData($('#add-contact_form')[0]);
         callUserApi(urlAddUser, data, "POST")
             .then((res) => {
-                alert(1);
+
                 toastr.success(" Create Success  User");
                 $('#addModalUser').modal('hide');
                 getList();
 
             })
-            .catch((res)=>{
-                if (res.status == 422){
-                    $(".error").css('display','block');
-                    $.each( res.responseJSON.errors, function( key, value ) {
-                        $(".error").find("ul").append('<li>'+value+'</li>');
+            .catch((res) => {
+                if (res.status == 422) {
+                    $(".error").css('display', 'block');
+                    $.each(res.responseJSON.errors, function (key, value) {
+                        $(".error").find("ul").append('<li>' + value + '</li>');
                     });
                 }
-        })
+            })
 
 
     })
@@ -91,7 +89,7 @@ $(document).ready(function () {
     });
 
     //change status
-    $(document).on('click','.btn-change-status',function (){
+    $(document).on('click', '.btn-change-status', function () {
         let urlChangeStatusUser = $(this).data('action');
         callUserApi(urlChangeStatusUser)
             .then((res) => {
@@ -102,21 +100,21 @@ $(document).ready(function () {
     })
 
     //filter
-    $(document).on('click','#btnFilterAllUser',function (){
+    $(document).on('click', '#btnFilterAllUser', function () {
         let urlChangeStatusUser = $(this).data('action');
         callUserApi(urlChangeStatusUser)
             .then((res) => {
                 $('#table-user').replaceWith(res);
             });
     })
-    $(document).on('click','#btnFilterActiveUser',function (){
+    $(document).on('click', '#btnFilterActiveUser', function () {
         let urlChangeStatusUser = $(this).data('action');
         callUserApi(urlChangeStatusUser)
             .then((res) => {
                 $('#table-user').replaceWith(res);
             });
     })
-    $(document).on('click','#btnFilterInActiveUser',function (){
+    $(document).on('click', '#btnFilterInActiveUser', function () {
         let urlChangeStatusUser = $(this).data('action');
         callUserApi(urlChangeStatusUser)
             .then((res) => {
@@ -124,7 +122,20 @@ $(document).ready(function () {
             });
     })
 
+    $(document).on('click', '#pagination a', function (event) {
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        fetch_data(page);
+    });
 
+    function fetch_data(page) {
+        $.ajax({
+            url: "/users/pagination/fetch_data?page=" + page,
+            success: function (data) {
+                $('#table-user').html(data);
+            }
+        });
+    }
 
 });
 
@@ -154,16 +165,15 @@ function getList() {
             $('#table-user').replaceWith(res);
         })
 }
-function seachUser(){
+
+function seachUser() {
     let searchText = '';
     searchText = document.getElementById("input-search-user").value;
-        let urlSearch =  $('#input-search-user').attr('data-action');
-        callUserApi(urlSearch + '?search=' + searchText)
-            .then((res) => {
-                $('#table-user').replaceWith(res);
-            })
-
-
+    let urlSearch = $('#input-search-user').attr('data-action');
+    callUserApi(urlSearch + '?search=' + searchText)
+        .then((res) => {
+            $('#table-user').replaceWith(res);
+        })
 
 
 }

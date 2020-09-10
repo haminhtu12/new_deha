@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Intervention\Image\Facades\Image;
 
 class Product extends Model
 {
@@ -19,7 +18,5 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-
-
 
 }

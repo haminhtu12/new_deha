@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
-use App\ProductDetails;
+use App\Model\Product;
+use App\Model\ProductDetails;
 use Illuminate\Http\Request;
 
 class ProductDetailController extends Controller
@@ -48,6 +48,8 @@ class ProductDetailController extends Controller
 
     public function destroy($id)
     {
+        $this->productDetail->destroy($id);
+        return response()->json(['data' => 'remove']);
 
     }
 

@@ -26,9 +26,10 @@ Route::group(['prefix' => 'users', 'middleware' => 'role:admin,user'], function 
     Route::post('/delete/{id}', 'UserController@destroy')->name('user.delete');
     Route::post('/add', 'UserController@store')->name('user.store');
     Route::get('/list', 'UserController@search')->name('user.list');
-    Route::get('/search', 'UserController@search')->name('user.search');
+    Route::get('/search/{field?}', 'UserController@search')->name('user.search');
     Route::get('/change-status/{id}', 'UserController@changeStatus')->name('user.changeStatus');
     Route::get('/filter-users/{field}', 'UserController@filter')->name('user.filter');
+    Route::get('pagination/fetch_data', 'UserController@fetchData');
 });
 Route::group(['prefix' => 'products', 'middleware' => 'role:user,admin'], function () {
     Route::get('/', 'ProductController@index')->name('products.index');

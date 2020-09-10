@@ -1,27 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
-define('FILE_PATH', config('pathupload.path_upload_image_productdetai'));
+define('FILE_PATH_PRODUCTDETAIL', config('pathupload.path_upload_image_productdetai'));
 
 class ProductDetails extends Model
 {
     protected $table = "product_details";
     protected $guarded = [];
-
-    public function oder_detai()
-    {
-        return $this->belongsTo(OrderDetails::class, 'product_details_id');
-    }
-
-    public function discount()
-    {
-        return $this->hasOne(Discount::class, 'product_details_id');
-    }
 
     public function product()
     {
@@ -30,7 +20,7 @@ class ProductDetails extends Model
 
     public function createProductDetails($data, $image = null)
     {
-        $productDetail = new ProductDetails();
+        $productDetail = new \App\ProductDetails();
         if (isset($image) && $image != '') {
             $data['image'] = $this->insertPhoto($image);
             $productDetail = $this->create($data);
@@ -41,12 +31,11 @@ class ProductDetails extends Model
     public static function insertPhoto($file = null)
     {
         $filename = '';
-        $path = 'images/productdetails/';
         if ($file != null && $file != '') {
             $filename = $file->getClientOriginalName();
             $image_resize = Image::make($file->getRealPath());
             $image_resize->resize(60, 60);
-            $image_resize->save(public_path(FILE_PATH . $filename));
+            $image_resize->save(public_path(FILE_PATH_PRODUCTDETAIL . $filename));
         }
         return $filename;
     }
@@ -56,7 +45,7 @@ class ProductDetails extends Model
         $filename = $currentFile;
         if ($this->isVerify($file)) {
             if ($currentFile) {
-                File::delete(FILE_PATH . $currentFile);
+                File::delete(FILE_PATH_PRODUCTDETAIL . $currentFile);
             }
             $filename = $this->insertPhoto($file);
         }
@@ -75,6 +64,5 @@ class ProductDetails extends Model
     {
         return ($file != null && $file != '');
     }
-
 
 }

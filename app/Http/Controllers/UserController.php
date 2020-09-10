@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('users.index')->with(['users' => $this->user->all()]);
+        return view('users.index')->with(['users' => $this->user->paginate(1)]);
     }
 
     public function store(CreateUserRequest $request)
@@ -48,18 +48,26 @@ class UserController extends Controller
         return response()->json(['data' => 'remove']);
     }
 
-    public function search(Request $request)
+    public function search(Request $request ,$field = null )
     {
-        return view('users.list')->with(['users' => $this->user->search($request->search)]);
+        return view('users.list')->with(['users' => $this->user->search($request->search ,$field)]);
+    }
+    function fetchData(Request $request)
+    {
+        if($request->ajax())
+        {
+            $users = $this->user->paginate(1);
+            return view('users.list', compact('users'))->render();
+        }
     }
 
     public function changeStatus($id)
     {
-        $this->user->changeStatusUser($id);
+        $this->user->changeStatus($id);
     }
 
     public function filter($field)
     {
-        return view('users.list')->with(['users' => $this->user->filterUserStatus($field)]);
+        return view('users.list')->with(['users' => $this->user->filterUser($field)]);
     }
 }
