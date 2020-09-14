@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Model\Role;
@@ -36,18 +37,20 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_user');
+        return $this->belongsToMany(Role::class, 'role_user','user_id','role_id');
 
     }
 
     public function createUser($data, $avatar = null)
     {
-
         if (isset($avatar) && $avatar != '') {
             $data['avatar'] = $this->insertPhoto($avatar);
         }
+        $user = $this->create($data);
+        $roleIds = $data['role_id'];
+        $user->roles()->sync($roleIds);
 
-        return $this->create($data);
+            return $user;
     }
 
     public function upDateUser($id, $data = null, $avatar = null)
@@ -90,7 +93,7 @@ class User extends Authenticatable
 
     public function search($searchText, $field)
     {
-        return !$field ? $this->withSearch($searchText)->paginate(1) : $this->withStatus($field)->paginate(1);
+        return !$field ? $this->withSearch($searchText)->paginate(10) : $this->withStatus($field)->paginate(10);
     }
 
     public function changeStatus($id)

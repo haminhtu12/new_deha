@@ -141,6 +141,33 @@
 
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <label class="control-label pull-right"><h4>Permission </h4></label>
+                                </div>
+
+                                <div class="col-md-4 col-lg-4 inputGroupContainer">
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                     <span class="input-group-text">
+                                                <i class="mdi mdi-alpha-s-box"></i>
+                                     </span>
+                                        </div>
+
+                                        <select name="role_id[]" id="AddPermission" class="form-control" multiple>
+                                            @foreach($roles as $role)
+                                                <option value="{{$role->id}}"> {{$role->name}}</option>
+                                            @endforeach
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="row">

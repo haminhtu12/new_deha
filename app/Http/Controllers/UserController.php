@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
+use App\Model\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,21 +13,25 @@ use phpDocumentor\Reflection\Types\This;
 class UserController extends Controller
 {
     protected $user;
+    protected $role;
 
-    public function __construct(User $user)
+    public function __construct(User $user ,Role $role)
     {
         $this->user = $user;
+        $this->role = $role;
     }
 
     public function index()
     {
-        return view('users.index')->with(['users' => $this->user->paginate(1)]);
+        $users = $this->user->all();
+        $roles = $this->role->all();
+        return view('users.index')->with(['users' =>$users,'roles' => $roles]);
     }
 
     public function store(CreateUserRequest $request)
     {
         $user = $this->user->createUser($request->all(), $request->file('avatar'));
-        return response(['user' => $user]);
+         return response(['user' => $user]);
     }
 
     public function edit(int $id)
@@ -50,13 +55,14 @@ class UserController extends Controller
 
     public function search(Request $request ,$field = null )
     {
-        return view('users.list')->with(['users' => $this->user->search($request->search ,$field)]);
+        $users = $this->user->search($request->search ,$field);
+        return view('users.list')->with(['users' => $users]);
     }
     function fetchData(Request $request)
     {
         if($request->ajax())
         {
-            $users = $this->user->paginate(1);
+            $users = $this->user->paginate(5);
             return view('users.list', compact('users'))->render();
         }
     }
