@@ -19,9 +19,11 @@ class ProductDetailController extends Controller
 
     public function index()
     {
+        $productDetails = $this->productDetail->all();
+        $products = $this->product->all();
         return view('productdetails.index')->with([
-            'productDetails' => $this->productDetail->all(),
-            'products' => $this->product->all()
+            'productDetails' => $productDetails,
+            'products' => $products
         ]);
     }
 

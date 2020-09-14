@@ -20,7 +20,6 @@ class ProductDetails extends Model
 
     public function createProductDetails($data, $image = null)
     {
-        $productDetail = new \App\ProductDetails();
         if (isset($image) && $image != '') {
             $data['image'] = $this->insertPhoto($image);
             $productDetail = $this->create($data);

@@ -2,13 +2,11 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Model\Role;
-use phpDocumentor\Reflection\Types\This;
 
 define('FILE_PATH', config('pathupload.path_upload_avatar'));
 
@@ -44,12 +42,12 @@ class User extends Authenticatable
 
     public function createUser($data, $avatar = null)
     {
-        $user = new User();
+
         if (isset($avatar) && $avatar != '') {
             $data['avatar'] = $this->insertPhoto($avatar);
-            $user = $this->create($data);
         }
-        return $user;
+
+        return $this->create($data);
     }
 
     public function upDateUser($id, $data = null, $avatar = null)
@@ -57,6 +55,7 @@ class User extends Authenticatable
         $user = $this->findOrFail($id);
         $data['avatar'] = $this->updatePhoto($avatar, $user['avatar']);
         $user->update($data);
+
         return $user;
     }
 
@@ -91,7 +90,7 @@ class User extends Authenticatable
 
     public function search($searchText, $field)
     {
-        return !$field ? $this->withSearch($searchText)->paginate(5) : $this->withStatus($field)->paginate(5);
+        return !$field ? $this->withSearch($searchText)->paginate(1) : $this->withStatus($field)->paginate(1);
     }
 
     public function changeStatus($id)
@@ -110,7 +109,10 @@ class User extends Authenticatable
 
     public function scopeWithStatus($query, $active)
     {
-        return $active ? $active != 'all' ? $query->where('status', $active) : null : null;
+
+        $active = $active == 'all' ? null : $active;
+
+        return $active ? $query->where('status', $active) : null ;
     }
 
 

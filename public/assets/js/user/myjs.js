@@ -1,14 +1,5 @@
 $(document).ready(function () {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    let urlUpdate = '';
-    let urldelete = '';
-    let urlList = '';
-    getList();
-
+    getList($('#table-user'));
     $(document).on('click', '.btn-edit-user', function () {
 
         urlUpdate = $(this).data('update');
@@ -16,18 +7,18 @@ $(document).ready(function () {
 
         $.get(url, (data) => {
             let {user} = data;
-            var pass = data.password;
             fillUserToModal(user);
         })
     });
+  var user =   edit('click', '.btn-edit-user');
 
     //edit
     $(document).on('click', '#edit-submit', function (e) {
         e.preventDefault();
         let data = new FormData($('#contact_form')[0]);
-        callUserApi(urlUpdate, data, 'POST')
+        callApi(urlUpdate, data, 'POST')
             .then(() => {
-                getList()
+                getList($('#table-user'))
                 $('#myModal').modal('hide');
             })
             .catch((res) => {
@@ -48,13 +39,11 @@ $(document).ready(function () {
         urldelete = $(this).data('delete');
         that = $(this);
     })
-    $(document).on('click', '#openFormAddUser', function () {
-    })
 
     // confirm delete
     $(document).on('click', '#confirmDeleteUser', function () {
         $('#idDelete').modal('hide');
-        callUserApi(urldelete, "", "POST")
+        callApi(urldelete, "", "POST")
             .then((res) => {
                 toastr.success('Delete User Success');
                 that.parent().parent().remove();
@@ -65,12 +54,12 @@ $(document).ready(function () {
     $(document).on('click', '#add-submit-user', function (e) {
         let urlAddUser = 'users/add';
         let data = new FormData($('#add-contact_form')[0]);
-        callUserApi(urlAddUser, data, "POST")
+        callApi(urlAddUser, data, "POST")
             .then((res) => {
 
                 toastr.success(" Create Success  User");
                 $('#addModalUser').modal('hide');
-                getList();
+                getList($('#table-user'));
 
             })
             .catch((res) => {
@@ -91,10 +80,10 @@ $(document).ready(function () {
     //change status
     $(document).on('click', '.btn-change-status', function () {
         let urlChangeStatusUser = $(this).data('action');
-        callUserApi(urlChangeStatusUser)
+        callApi(urlChangeStatusUser)
             .then((res) => {
                 toastr.success(" Status Change Success ");
-                getList();
+                getList($('#table-user'));
 
             });
     })
@@ -102,21 +91,21 @@ $(document).ready(function () {
     //filter
     $(document).on('click', '#btnFilterAllUser', function () {
         let urlChangeStatusUser = $(this).data('action');
-        callUserApi(urlChangeStatusUser)
+        callApi(urlChangeStatusUser)
             .then((res) => {
                 $('#table-user').replaceWith(res);
             });
     })
     $(document).on('click', '#btnFilterActiveUser', function () {
         let urlChangeStatusUser = $(this).data('action');
-        callUserApi(urlChangeStatusUser)
+        callApi(urlChangeStatusUser)
             .then((res) => {
                 $('#table-user').replaceWith(res);
             });
     })
     $(document).on('click', '#btnFilterInActiveUser', function () {
         let urlChangeStatusUser = $(this).data('action');
-        callUserApi(urlChangeStatusUser)
+        callApi(urlChangeStatusUser)
             .then((res) => {
                 $('#table-user').replaceWith(res);
             });
@@ -125,10 +114,10 @@ $(document).ready(function () {
     $(document).on('click', '#pagination a', function (event) {
         event.preventDefault();
         var page = $(this).attr('href').split('page=')[1];
-        fetch_data(page);
+        getNextPage(page);
     });
 
-    function fetch_data(page) {
+    function getNextPage(page) {
         $.ajax({
             url: "/users/pagination/fetch_data?page=" + page,
             success: function (data) {
@@ -138,17 +127,6 @@ $(document).ready(function () {
     }
 
 });
-
-function callUserApi(url, data = '', method = 'get') {
-    return $.ajax({
-        url: url,
-        data: data,
-        method: method,
-        processData: false,
-        contentType: false,
-    });
-}
-
 function fillUserToModal(user) {
     $('#editUserModalTitle').html(`Edit ${user.name}`);
     $('#name').val(user.name)
@@ -158,19 +136,12 @@ function fillUserToModal(user) {
     $('#status').val(user.status)
 }
 
-function getList() {
-    let url = $('#table-user').attr('data-action');
-    callUserApi(url)
-        .then((res) => {
-            $('#table-user').replaceWith(res);
-        })
-}
 
 function seachUser() {
     let searchText = '';
     searchText = document.getElementById("input-search-user").value;
     let urlSearch = $('#input-search-user').attr('data-action');
-    callUserApi(urlSearch + '?search=' + searchText)
+    callApi(urlSearch + '?search=' + searchText)
         .then((res) => {
             $('#table-user').replaceWith(res);
         })

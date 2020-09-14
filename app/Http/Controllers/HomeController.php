@@ -28,7 +28,7 @@ class HomeController extends Controller
 	    }
 
 	    if ($request->user()->hasRole('admin')) {
-        	            return redirect('/admin/home');
+        	            return redirect('/users');
 	    }
     }
 }

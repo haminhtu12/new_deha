@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Category;
 use App\Http\Requests\CategoryRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 
 class CategoryController extends Controller
 {

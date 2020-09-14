@@ -13,8 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                  hahahahahahhahahahah
+                        ban da dn
                 </div>
             </div>
         </div>

@@ -28,4 +28,5 @@
 <script src="{{asset('assets/js/date-range.js')}}"></script>
 <script src="{{asset('assets/js/map.js')}}"></script>
 <script src="{{asset('assets/js/custom.js')}}"></script>
+<script src="{{asset('assets/js/main.js')}}"></script>
 @stack('js')
