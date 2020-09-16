@@ -15,7 +15,7 @@ class UserController extends Controller
     protected $user;
     protected $role;
 
-    public function __construct(User $user ,Role $role)
+    public function __construct(User $user, Role $role)
     {
         $this->user = $user;
         $this->role = $role;
@@ -25,19 +25,23 @@ class UserController extends Controller
     {
         $users = $this->user->all();
         $roles = $this->role->all();
-        return view('users.index')->with(['users' =>$users,'roles' => $roles]);
+        return view('users.index')->with(['users' => $users, 'roles' => $roles]);
     }
 
     public function store(CreateUserRequest $request)
     {
         $user = $this->user->createUser($request->all(), $request->file('avatar'));
-         return response(['user' => $user]);
+        return response(['user' => $user]);
     }
 
     public function edit(int $id)
     {
+
+        $user = $this->user->with('roles')->findOrFail($id);
+        $roleIdsUser = $user->roles->pluck('id')->toArray();
         return response()->json([
-            'user' => $this->user->findOrFail($id),
+            'user' => $user,
+            'role_ids_user' => $roleIdsUser,
         ]);
     }
 
@@ -53,16 +57,16 @@ class UserController extends Controller
         return response()->json(['data' => 'remove']);
     }
 
-    public function search(Request $request ,$field = null )
+    public function search(Request $request, $field = null)
     {
-        $users = $this->user->search($request->search ,$field);
+        $users = $this->user->search($request->search, $field);
         return view('users.list')->with(['users' => $users]);
     }
-    function fetchData(Request $request)
+
+    function fetchDataPaginate(Request $request)
     {
-        if($request->ajax())
-        {
-            $users = $this->user->paginate(5);
+        if ($request->ajax()) {
+            $users = $this->user->paginate(4);
             return view('users.list', compact('users'))->render();
         }
     }

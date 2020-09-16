@@ -6,8 +6,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use App\Model\Role;
+use PHPUnit\Exception;
 
 define('FILE_PATH', config('pathupload.path_upload_avatar'));
 
@@ -37,20 +39,27 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_user','user_id','role_id');
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
 
     }
 
     public function createUser($data, $avatar = null)
     {
-        if (isset($avatar) && $avatar != '') {
-            $data['avatar'] = $this->insertPhoto($avatar);
-        }
-        $user = $this->create($data);
-        $roleIds = $data['role_id'];
-        $user->roles()->sync($roleIds);
-
+        try {
+            DB::beginTransaction();
+            if (isset($avatar) && $avatar != '') {
+                $data['avatar'] = $this->insertPhoto($avatar);
+            }
+            $user = $this->create($data);
+            $roleIds = $data['role_id'];
+            $user->roles()->sync($roleIds);
+            DB::commit();
             return $user;
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+        }
     }
 
     public function upDateUser($id, $data = null, $avatar = null)
@@ -93,7 +102,7 @@ class User extends Authenticatable
 
     public function search($searchText, $field)
     {
-        return !$field ? $this->withSearch($searchText)->paginate(10) : $this->withStatus($field)->paginate(10);
+        return !$field ? $this->withSearch($searchText)->paginate(4) : $this->withStatus($field)->paginate(4);
     }
 
     public function changeStatus($id)
@@ -115,7 +124,7 @@ class User extends Authenticatable
 
         $active = $active == 'all' ? null : $active;
 
-        return $active ? $query->where('status', $active) : null ;
+        return $active ? $query->where('status', $active) : null;
     }
 
 

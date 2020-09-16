@@ -1,18 +1,18 @@
 $(document).ready(function () {
     getList($('#table-user'));
-    $(document).on('click', '.btn-edit-user', function () {
 
+    //edit
+    $(document).on('click', '.btn-edit-user', function () {
         urlUpdate = $(this).data('update');
         let url = $(this).data('action');
 
         $.get(url, (data) => {
-            let {user} = data;
+            let {user, role_ids_user} = data;
+            $('#select_role').val(role_ids_user);
             fillUserToModal(user);
         })
     });
-  var user =   edit('click', '.btn-edit-user');
-
-    //edit
+    //update
     $(document).on('click', '#edit-submit', function (e) {
         e.preventDefault();
         let data = new FormData($('#contact_form')[0]);
@@ -127,6 +127,7 @@ $(document).ready(function () {
     }
 
 });
+
 function fillUserToModal(user) {
     $('#editUserModalTitle').html(`Edit ${user.name}`);
     $('#name').val(user.name)

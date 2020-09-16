@@ -14,20 +14,6 @@ let urldelete = '';
 let urlList = '';
 
 //edit
-function edit(events,selector){
-    $(document).on(events, selector, function () {
-
-        urlUpdate = $(this).data('update');
-        let url = $(this).data('action');
-        $.get(url, (data) => {
-           let  {res} = data;
-            return res;
-            console.log(res);
-        })
-
-    });
-
-}
 // // paginate
 // function paginate(events,path,selector){
 //     $(document).on(events,selector, function (event) {

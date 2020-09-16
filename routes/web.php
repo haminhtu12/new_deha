@@ -29,7 +29,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'role:admin,user'], function 
     Route::get('/search/{field?}', 'UserController@search')->name('user.search');
     Route::get('/change-status/{id}', 'UserController@changeStatus')->name('user.changeStatus');
     Route::get('/filter-users/{field}', 'UserController@filter')->name('user.filter');
-    Route::get('pagination/fetch_data', 'UserController@fetchData');
+    Route::get('pagination/fetch_data', 'UserController@fetchDataPaginate');
 });
 Route::group(['prefix' => 'products', 'middleware' => 'role:user,admin'], function () {
     Route::get('/', 'ProductController@index')->name('products.index');
