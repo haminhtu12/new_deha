@@ -13,12 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login')->name('');
-});
-Route::get('index', function () {
-    return view('layouts.master');
-});
+//Route::get('index', function () {
+//    return view('layouts.master');
+//});
 Route::group(['prefix' => 'users', 'middleware' => 'role:admin,user'], function () {
     Route::get('/', 'UserController@index')->name('user.index');
     Route::get('{id}/edit', 'UserController@edit')->name('user.edit');
@@ -55,8 +52,19 @@ Route::group(['prefix' => 'categories', 'middleware' => 'role:user,admin'], func
     Route::post('/add', 'CategoryController@store')->name('category.store');
     Route::get('/list', 'CategoryController@list')->name('category.list');
 });
+Route::group(['prefix' => 'roles', 'middleware' => 'role:user,admin'], function () {
+    Route::get('/', 'RoleController@index')->name('roles.index');
+    Route::get('{id}/edit', 'RoleController@edit')->name('role.edit');
+    Route::post('/update/{id}', 'RoleController@update')->name('role.update');
+    Route::post('/delete/{id}', 'RoleController@destroy')->name('role.delete');
+    Route::post('/add', 'RoleController@store')->name('roles.store');
+    Route::get('/list', 'RoleController@list')->name('roles.list');
+});
 
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+//Route::get('/', function () {
+//    return view('auth.login')->name('');
+//});

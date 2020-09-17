@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     }
 
-    public function createUser($data, $avatar = null)
+    public function create($data, $avatar = null)
     {
         try {
             DB::beginTransaction();
@@ -65,6 +65,8 @@ class User extends Authenticatable
     public function upDateUser($id, $data = null, $avatar = null)
     {
         $user = $this->findOrFail($id);
+        $roleIds = $data['role_id'];
+        $user->roles()->sync($roleIds);
         $data['avatar'] = $this->updatePhoto($avatar, $user['avatar']);
         $user->update($data);
 

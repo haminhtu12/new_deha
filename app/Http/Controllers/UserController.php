@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $request)
     {
-        $user = $this->user->createUser($request->all(), $request->file('avatar'));
+        $user = $this->user->create($request->all(), $request->file('avatar'));
         return response(['user' => $user]);
     }
 

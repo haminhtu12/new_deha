@@ -175,10 +175,10 @@
                 <!-- Orders Management -->
 
                 <li class="has-sub">
-                    <a class="sidenav-item-link" href="{{asset('order')}}"
+                    <a class="sidenav-item-link" href="{{route('roles.index')}}"
                        aria-expanded="false" aria-controls="orders">
                         <i class="mdi mdi-shopping"></i>
-                        <span class="nav-text">Orders Management</span> <b class="caret"></b>
+                        <span class="nav-text">Roles List</span> <b class="caret"></b>
                     </a>
                     <ul class="collapse" id="orders"
                         data-parent="#sidebar-menu">

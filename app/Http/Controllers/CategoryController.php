@@ -23,6 +23,7 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
+        dd(1111111);
         $category = $this->category->create($request->all());
 
         return response(['category' => $category]);

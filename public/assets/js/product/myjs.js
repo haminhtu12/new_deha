@@ -14,7 +14,7 @@ $(document).ready(function () {
     $(document).on('click', '#add-submit-product', function () {
         let urlAddProduct = 'products/add';
         let data = new FormData($('#add_product_form')[0]);
-        callUserApi(urlAddProduct, data, "POST")
+        callProductApi(urlAddProduct, data, "POST")
             .then((res) => {
                 toastr.success(" Create Success  Product");
                 $('#addModalProduct').modal('hide');
@@ -49,7 +49,7 @@ $(document).ready(function () {
         let data = new FormData($('#edit_product_form')[0]);
 
         console.log(data)
-        callUserApi(urlUpdate, data, 'POST')
+        callProductApi(urlUpdate, data, 'POST')
             .then(() => {
                 getList()
                 $('#editModal').modal('hide');
@@ -79,7 +79,7 @@ $(document).ready(function () {
     $(document).on('click', '#confirmDeleteProduct', function () {
         $('#modalDeleteProduct').modal('hide');
 
-        callUserApi(urldelete, null, "POST")
+        callProductApi(urldelete, null, "POST")
             .then((res) => {
                 toastr.success('Delete Product Success');
                 that.parent().parent().remove();
@@ -91,7 +91,7 @@ $(document).ready(function () {
 
 //update
 
-function callUserApi(url, data = '', method = 'get') {
+function callProductApi(url, data = '', method = 'get') {
     return $.ajax({
         url: url,
         data: data,
@@ -109,7 +109,7 @@ function fillProductToModal(product) {
 
 function getList() {
     let url = $('#table-product').attr('data-action');
-    callUserApi(url)
+    callProductApi(url)
         .then((res) => {
             $('#table-product').replaceWith(res);
         })
