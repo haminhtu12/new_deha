@@ -2,30 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Permission;
 use App\Model\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
     private $role;
+    private $permission;
 
-    public function __construct(Role $role)
+    public function __construct(Role $role ,Permission $permission )
     {
         $this->role = $role;
+        $this->permission = $permission;
     }
 
     public function index()
     {
+        $permissionsParent = $this->permission->where('parent_id',0)->get();
+
+
         $roles = $this->role->paginate(2);
-        return view('roles.index')->with(['roles' => $roles]);
+        return view('roles.index')->with(['roles' => $roles ,'permissionsParent' =>$permissionsParent]);
     }
 
     public function store(Request $request)
     {
         $role = $this->role->create($request->all());
-
-        return response(['role' => $role]);
-
+        return response(['role' => $role ]);
     }
 
 

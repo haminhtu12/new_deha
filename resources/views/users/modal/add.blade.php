@@ -12,7 +12,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 @include('users.error')
-                <form class="form-horizontal" method="post" id="add-contact_form" enctype="multipart/form-data"  >
+                <form class="form-horizontal"  id="add-contact_form" enctype="multipart/form-data" >
                     @csrf
                     <fieldset>
                         <div class="form-group">
@@ -197,7 +197,7 @@
                             <div class="row">
                                 <label class="col-md-4 col-lg-4 control-label"></label>
                                 <div class="col-md-4 col-lg-4">
-                                    <button type="button" class="btn btn-danger  raised" id="add-submit-user">Submit <i class="fa fa-paper-plane"></i></button>
+                                    <button type="button" class="btn btn-danger  raised" id="add-submit-user" data-url = "{{route('user.store')}}">Submit <i class="fa fa-paper-plane"></i></button>
                                 </div>
                             </div>
                         </div>

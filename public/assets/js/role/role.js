@@ -37,14 +37,17 @@ $(document).ready(function (){
         $.get(url, (data) => {
             let {role} = data;
             fillRoleToModal(role);
+            getList();
+            $('#editModalRole').modal('hide');
+
         })
     });
 
     //update
     $(document).on('click', '#edit-submit-role', function (e) {
         e.preventDefault();
-        let data = new FormData($('#edit_role_form')[0]);
-        alert(111);
+        let data = $('#edit_role_form').serialize();
+
         callRoleApi(urlUpdate, data, 'POST')
             .then(() => {
 
@@ -90,8 +93,8 @@ function callRoleApi(url, data = {}, method = 'get') {
         url: url,
         data: data,
         method: method,
-        processData: false,
-        contentType: false,
+        // processData: false,
+        // contentType: false,
     });
 }
 function fillRoleToModal(role) {

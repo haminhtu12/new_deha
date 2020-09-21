@@ -29,7 +29,7 @@ class ProductDetailController extends Controller
 
     public function store(Request $request)
     {
-        $productDetail = $this->productDetail->createProductDetails($request->all(), $request->file('image'));
+        $productDetail = $this->productDetail->create($request->all(), $request->file('image'));
         return response(['productDetail' => $productDetail]);
     }
 
@@ -43,7 +43,7 @@ class ProductDetailController extends Controller
 
     public function update(Request $request, $id)
     {
-        $productDetail = $this->productDetail->upDateProductDetail($id, $request->all(), $request->file('image'));
+        $productDetail = $this->productDetail->update($id, $request->all(), $request->file('image'));
         return response()->json(['productDetails' => $productDetail]);
 
     }

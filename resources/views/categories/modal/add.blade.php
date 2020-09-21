@@ -12,7 +12,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 @include('users.error')
-                <form class="form-horizontal" method="post" id="add_category_form" enctype="multipart/form-data"  >
+                <form class="form-horizontal" method="post" id="add_category_form" enctype="multipart/form-data" data-action="{{route('category.store')}}" >
                     @csrf
                     <fieldset>
                         <div class="form-group">

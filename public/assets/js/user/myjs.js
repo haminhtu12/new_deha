@@ -52,11 +52,12 @@ $(document).ready(function () {
 
     //add
     $(document).on('click', '#add-submit-user', function (e) {
-        let urlAddUser = 'users/add';
+        let url = $(this).data('url');
         let data = new FormData($('#add-contact_form')[0]);
-        callApi(urlAddUser, data, "POST")
+        callApi(url, data, "POST")
             .then((res) => {
-
+                let {user} = res;
+                console.log(user)
                 toastr.success(" Create Success  User");
                 $('#addModalUser').modal('hide');
                 getList($('#table-user'));

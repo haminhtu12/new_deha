@@ -18,7 +18,7 @@ class ProductDetails extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function createProductDetails($data, $image = null)
+    public function create($data, $image = null)
     {
         if (isset($image) && $image != '') {
             $data['image'] = $this->insertPhoto($image);
@@ -51,7 +51,7 @@ class ProductDetails extends Model
         return $filename;
     }
 
-    public function upDateProductDetail($id, $data = null, $image = null)
+    public function update($id, $data = null, $image = null)
     {
         $productDetail = $this->findOrFail($id);
         $data['image'] = $this->updatePhoto($image, $productDetail['image']);

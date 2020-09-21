@@ -12,6 +12,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 @include('users.error')
+                <div class="col-md-12">
                 <form class="form-horizontal" data-action="{{route('roles.store')}}" method="post" id="add_role_form" enctype="multipart/form-data"  >
                     @csrf
                     <fieldset>
@@ -41,10 +42,47 @@
                                 </div>
                                 <div class="col-md-4 col-lg-4 inputGroupContainer">
 
-                                    <textarea name="description" id="descriptionRole" cols="30" rows="10"></textarea>
+                                    <textarea name="description" id="descriptionRole" cols="26" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
+
+
+
+                        <div class="row">
+                                <div class="col-md-12 card border-primary">
+                                    @foreach($permissionsParent as $permissionsParentItem)
+                                        <div class="card-header" style="background-color: orangered;">
+
+                                            <label>
+                                                <input type="checkbox" value="">
+                                            </label>
+                                            Models {{$permissionsParentItem->name}}
+                                        </div>
+
+                                        <div class="row">
+                                            @foreach($permissionsParentItem->permissionsChildren as $permissionsParentItem)
+                                        <div class="card-body text-primary col-md-3"  >
+                                            <h5 class="card-title">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                </label>
+
+                                                {{$permissionsParentItem->name}}
+                                            </h5>
+                                        </div>
+                                            @endforeach
+
+                                        </div>
+                                    @endforeach
+                                    </div>
+                        </div>
+
+
+
+
+                        </div>
+
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-md-4 col-lg-4 control-label"></label>
@@ -55,6 +93,7 @@
                         </div>
                     </fieldset>
                 </form>
+                </div>
             </div>
 
             <!-- Modal footer -->

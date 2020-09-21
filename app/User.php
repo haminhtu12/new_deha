@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     }
 
-    public function create($data, $avatar = null)
+    public function createUser($data, $avatar = null)
     {
         try {
             DB::beginTransaction();
@@ -51,6 +51,7 @@ class User extends Authenticatable
                 $data['avatar'] = $this->insertPhoto($avatar);
             }
             $user = $this->create($data);
+
             $roleIds = $data['role_id'];
             $user->roles()->sync($roleIds);
             DB::commit();

@@ -11,7 +11,6 @@
             <h4 class="header-line">Roles Mananger</h4>
         </div>
     </div>
-    @include('roles.modal.add')
     @include('roles.modal.edit')
     <div class="row" style="padding-top: 15px">
         <div class="col-md-12">
@@ -29,7 +28,7 @@
             <!--End Advanced Tables -->
         </div>
     </div>
-    {{--    @include('roles.modal.edit')--}}
+    @include('roles.modal.add')
     @push('js')
         <script src="{{ asset('assets/js/role/role.js') }}"></script>
     @endpush
