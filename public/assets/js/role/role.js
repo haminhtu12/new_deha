@@ -31,15 +31,14 @@ $(document).ready(function (){
     });
 
     //edit
+    rolePermissions = [];
     $(document).on('click', '.btn-edit-role', function () {
         urlUpdate = $(this).data('update');
         let url = $(this).data('action');
         $.get(url, (data) => {
-            let {role} = data;
+            let {role,rolePermissions} = data;
+            $('.permission').val(rolePermissions)
             fillRoleToModal(role);
-            getList();
-            $('#editModalRole').modal('hide');
-
         })
     });
 
@@ -53,6 +52,7 @@ $(document).ready(function (){
 
                 $('#editModalRole').modal('hide');
                 toastr.success('Edit Product sucess');
+                $('.permission').val(rolePermissions)
                 getList();
             })
             .catch((res)=>{
@@ -79,7 +79,11 @@ $(document).ready(function (){
             })
     })
 
+    $(document).on('click','.checkbox_wrapper',function (){
+        let parentClassName = $(this).data('class');
 
+       $(this).parents('.card').find(`.${parentClassName}-select-item`).prop('checked',$(this).prop('checked'));
+    });
 });
 function getList() {
     let url = $('#table-role').attr('data-action');

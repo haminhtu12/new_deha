@@ -143,4 +143,16 @@ class User extends Authenticatable
         return (bool)$this->roles()->where('name', $role)->first();
     }
 
+    public function checkPermissionAccess($permission)
+    {
+        $roles = $this->load('roles')->roles;
+        foreach ($roles as $role) {
+            $permissions = $role->permissions;
+            if ($permissions->contains('key_code', $permission)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

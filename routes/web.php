@@ -28,12 +28,16 @@ Route::group(['prefix' => 'users', 'middleware' => 'role:admin,user'], function 
     Route::get('/filter-users/{field}', 'UserController@filter')->name('user.filter');
     Route::get('pagination/fetch_data', 'UserController@fetchDataPaginate');
 });
-Route::group(['prefix' => 'products', 'middleware' => 'role:user,admin'], function () {
-    Route::get('/', 'ProductController@index')->name('products.index');
-    Route::get('{id}/edit', 'ProductController@edit')->name('product.edit');
-    Route::post('/update/{id}', 'ProductController@update')->name('product.update');
-    Route::post('/delete/{id}', 'ProductController@destroy')->name('product.delete');
-    Route::post('/add', 'ProductController@store')->name('product.store');
+Route::group(['prefix' => 'products'], function () {
+    Route::get('/', ['uses' => 'ProductController@index', 'middleware' => 'can:list_product'])->name('products.index');
+    Route::get('{id}/edit',
+        ['uses' => 'ProductController@edit', 'middleware' => 'can:edit_product'])->name('product.edit');
+    Route::post('/update/{id}',
+        ['uses' => 'ProductController@update', 'middleware' => 'can:update_product'])->name('product.update');
+    Route::post('/delete/{id}',
+        ['uses' => 'ProductController@destroy', 'middleware' => 'can:delete_product'])->name('product.delete');
+    Route::post('/add',
+        ['uses' => 'ProductController@store', 'middleware' => 'can:add_product'])->name('product.store');
     Route::get('/list', 'ProductController@list')->name('products.list');
 });
 Route::group(['prefix' => 'product-details', 'middleware' => 'role:user,admin'], function () {
@@ -45,14 +49,19 @@ Route::group(['prefix' => 'product-details', 'middleware' => 'role:user,admin'],
     Route::get('/list', 'ProductDetailController@list')->name('product-details.list');
 });
 Route::group(['prefix' => 'categories', 'middleware' => 'role:user,admin'], function () {
-    Route::get('/', 'CategoryController@index')->name('category.index');
-    Route::get('{id}/edit', 'CategoryController@edit')->name('category.edit');
-    Route::post('/update/{id}', 'CategoryController@update')->name('category.update');
-    Route::post('/delete/{id}', 'CategoryController@destroy')->name('category.delete');
-    Route::post('/add', 'CategoryController@store')->name('category.store');
+    Route::get('/',
+        ['uses' => 'CategoryController@index', 'middleware' => 'can:list_category'])->name('category.index');
+    Route::get('{id}/edit',
+        ['uses' => 'CategoryController@edit', 'middleware' => 'can:edit_category'])->name('category.edit');
+    Route::post('/update/{id}',
+        ['uses' => 'CategoryController@update', 'middleware' => 'can:update_category'])->name('category.update');
+    Route::post('/delete/{id}',
+        ['uses' => 'CategoryController@destroy', 'middleware' => 'can:delete-category'])->name('category.delete');
+    Route::post('/add',
+        ['uses' => 'CategoryController@store', 'middleware' => 'can:add_category'])->name('category.store');
     Route::get('/list', 'CategoryController@list')->name('category.list');
 });
-Route::group(['prefix' => 'roles', 'middleware' => 'role:user,admin'], function () {
+Route::group(['prefix' => 'roles'], function () {
     Route::get('/', 'RoleController@index')->name('roles.index');
     Route::get('{id}/edit', 'RoleController@edit')->name('role.edit');
     Route::post('/update/{id}', 'RoleController@update')->name('role.update');

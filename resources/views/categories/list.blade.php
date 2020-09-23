@@ -14,8 +14,9 @@
                 <td class="center" id="name{{$category->id}}">{!!$category->name!!}</td>
                 <td class="center">
                     <button class="btn btn-danger btn-edit-category" data-action ="{{route('category.edit',$category->id)}}" data-update= {{route('category.update',$category->id)}} data-toggle="modal" data-target="#editModalCategory">Edit</button>
-
+{{--                    @can('delete_category')--}}
                     <button class="btn btn-primary btn-delete-category" data-toggle="modal" data-target="#modalDeleteCategory" data-delete = "{{route('category.delete',$category->id)}}" >Delete</button>
+{{--                    @endcan--}}
                 </td>
             </tr>
         @endforeach

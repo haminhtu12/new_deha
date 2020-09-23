@@ -11,7 +11,7 @@ class RoleController extends Controller
     private $role;
     private $permission;
 
-    public function __construct(Role $role ,Permission $permission )
+    public function __construct(Role $role, Permission $permission)
     {
         $this->role = $role;
         $this->permission = $permission;
@@ -19,30 +19,36 @@ class RoleController extends Controller
 
     public function index()
     {
-        $permissionsParent = $this->permission->where('parent_id',0)->get();
+        $permissionsParent = $this->permission->where('parent_id', 0)->get();
 
 
         $roles = $this->role->paginate(2);
-        return view('roles.index')->with(['roles' => $roles ,'permissionsParent' =>$permissionsParent]);
+        return view('roles.index')->with(['roles' => $roles, 'permissionsParent' => $permissionsParent]);
     }
 
     public function store(Request $request)
     {
+
         $role = $this->role->create($request->all());
-        return response(['role' => $role ]);
+        $role->permissions()->attach($request->permission_id);
+        return response(['role' => $role]);
     }
 
 
     public function edit($id)
     {
-        $role = $this->role->findOrFail($id);
-        return response()->json(['role' => $role,]);
+        $role = $this->role->findOrFail($id)->load('permissions');
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+
+        return response()->json(['role' => $role, 'rolePermissions' => $rolePermissions]);
 
     }
 
     public function update(Request $request, $id)
     {
-        $role = $this->role->findOrFail($id)->update($request->all());
+        $role = $this->role->findOrFail($id)->load('permissions');
+        $role->update($request->all());
+        $role->assignPermissions($request->permission_id);
         return response()->json(['role' => $role]);
 
     }

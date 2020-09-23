@@ -44,6 +44,35 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12 card border-primary">
+                        @foreach($permissionsParent as $permissionsParentItem)
+                            <div class="card-header text-white" style="background-color: blue;">
+
+                                <label>
+                                    <input type="checkbox"  name="permission_id[]" value="{{$permissionsParentItem->id}}" class="checkbox_wrapper permission" data-class="{{($permissionsParentItem->slug_name)}}">
+                                </label>
+                                Module {{$permissionsParentItem->name}}
+                            </div>
+
+                            <div class="row">
+                                @foreach($permissionsParentItem->permissionsChildren as $permission)
+                                    <div class="card-body text-primary col-md-3"  >
+                                        <h5 class="card-title">
+                                            <label>
+                                                <input type="checkbox" value="{{$permission->id}}"
+                                                       name="permission_id[]" class="{{($permissionsParentItem->slug_name).'-select-item'}} permission"  data-id="{{($permission->id)}}">
+                                            </label>
+
+                                            {{$permission->name}}
+                                        </h5>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
 
                 <div class="form-group">
                             <div class="row">
