@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use App\Model\Role;
 use PHPUnit\Exception;
@@ -105,7 +104,7 @@ class User extends Authenticatable
 
     public function search($searchText, $field)
     {
-        return !$field ? $this->withSearch($searchText)->paginate(4) : $this->withStatus($field)->paginate(4);
+        return $this->withSearch($searchText)->withStatus($field)->paginate(4);
     }
 
     public function changeStatus($id)
@@ -154,5 +153,6 @@ class User extends Authenticatable
         }
         return false;
     }
+
 
 }

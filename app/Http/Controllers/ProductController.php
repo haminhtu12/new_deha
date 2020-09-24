@@ -45,7 +45,6 @@ class ProductController extends Controller
     {
         $product = $this->product->findOrFail($id)->update($request->all());
         return response()->json(['product' => $product]);
-
     }
 
     public function destroy($id)

@@ -19,7 +19,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $permissionsParent = $this->permission->where('parent_id', 0)->get();
+        $permissionsParent = $this->permission->where('parent_id', 0)->get();//orm
 
 
         $roles = $this->role->paginate(2);

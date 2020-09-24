@@ -7,8 +7,6 @@ use App\Http\Requests\EditUserRequest;
 use App\Model\Role;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use phpDocumentor\Reflection\Types\This;
 
 class UserController extends Controller
 {
@@ -25,7 +23,7 @@ class UserController extends Controller
     {
         $users = $this->user->all();
         $roles = $this->role->all();
-        return view('users.index')->with(['users' => $users, 'roles' => $roles]);
+        return view('users.index')->with(['users' => $users, 'roles' => $roles]);//compose
     }
 
     public function store(CreateUserRequest $request)
@@ -34,7 +32,7 @@ class UserController extends Controller
         return response(['user' => $user]);
     }
 
-    public function edit(int $id)
+    public function edit($id)
     {
 
         $user = $this->user->with('roles')->findOrFail($id);

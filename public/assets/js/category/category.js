@@ -1,36 +1,26 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
 $(document).ready(function () {
     let urlUpdate = '';
     let urldelete = '';
-    let urlList = '';
     getList();
 
     //add
     $(document).on('click', '#add-submit-category', function () {
-        let urlAddCategory = 'categories/add';
+        let urlAddCategory = $(this).data('action');
         let data = new FormData($('#add_category_form')[0]);
-        callCategoryApi(urlAddCategory, data, "POST")
+        callApi(urlAddCategory, data, "POST")
             .then((res) => {
                 toastr.success(" Create Success  Category");
                 $('#addModalCategory').modal('hide');
                 getList();
-
             })
-            .catch((res)=>{
-                if (res.status == 422){
-                    $(".error").css('display','block');
-                    $.each( res.responseJSON.errors, function( key, value ) {
-                        $(".error").find("ul").append('<li>'+value+'</li>');
+            .catch((res) => {
+                if (res.status == 422) {
+                    $(".error").css('display', 'block');
+                    $.each(res.responseJSON.errors, function (key, value) {
+                        $(".error").find("ul").append('<li>' + value + '</li>');
                     });
                 }
             })
-
-
     });
 
     //delete
@@ -44,11 +34,11 @@ $(document).ready(function () {
     // confirm delete
     $(document).on('click', '#confirmDeleteCategory', function () {
         $('#modalDeleteCategory').modal('hide');
-        // console.log(urldelete)
-        callCategoryApi(urldelete, null, "POST")
+        callApi(urldelete, null, "POST")
             .then((res) => {
                 toastr.success('Delete category Success');
-                that.parent().parent().remove();
+                 getList()
+               // that.parent().parent().remove();
             })
     })
 
@@ -67,40 +57,29 @@ $(document).ready(function () {
     $(document).on('click', '#edit-submit-category', function (e) {
         e.preventDefault();
         let data = new FormData($('#edit_category_form')[0]);
-
-        // console.log(urlUpdate)
-        callCategoryApi(urlUpdate, data, 'POST')
+        callApi(urlUpdate, data, 'POST')
             .then(() => {
-                // getList()
                 $('#editModalCategory').modal('hide');
-                toastr.success('Edit Product sucess');
+                toastr.success('Edit Product success');
                 getList();
             })
-            .catch((res)=>{
-                if (res.status == 422){
-                    $(".error").css('display','block');
-                    $.each( res.responseJSON.errors, function( key, value ) {
-                        $(".error").find("ul").append('<li>'+value+'</li>');
+            .catch((res) => {
+                if (res.status == 422) {
+                    $(".error").css('display', 'block');
+                    $.each(res.responseJSON.errors, function (key, value) {
+                        $(".error").find("ul").append('<li>' + value + '</li>');
                     });
                 }
             })
     })
 })
+
 function getList() {
     let url = $('#table-category').data('action');
-    callCategoryApi(url)
+    callApi(url)
         .then((res) => {
             $('#table-category').replaceWith(res);
         })
-}
-function callCategoryApi(url, data = '', method = 'get') {
-    return $.ajax({
-        url: url,
-        data: data,
-        method: method,
-        processData: false,
-        contentType: false,
-    });
 }
 function fillCategoryToModal(category) {
     $('#editCategoryModalTitle').html(`Edit ${category.name}`);

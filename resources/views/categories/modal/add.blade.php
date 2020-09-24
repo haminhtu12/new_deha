@@ -38,7 +38,7 @@
                             <div class="row">
                                 <label class="col-md-4 col-lg-4 control-label"></label>
                                 <div class="col-md-4 col-lg-4">
-                                    <button type="button" class="btn btn-danger  raised" id="add-submit-category">Submit <i class="fa fa-paper-plane"></i></button>
+                                    <button type="button" class="btn btn-danger  raised" id="add-submit-category" data-action="{{route('category.store')}}">Submit <i class="fa fa-paper-plane"></i></button>
                                 </div>
                             </div>
                         </div>

@@ -43,6 +43,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $this->category->destroy($id);
+        return 1;
     }
 
     public function list()

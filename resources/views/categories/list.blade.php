@@ -9,7 +9,7 @@
         </thead>
         <tbody>
         @foreach($categories as $category)
-            <tr class="odd gradeX " >
+            <tr class="odd gradeX " id="category-warp-{{$category->id}}">
                 <td class="center ">{{$loop->iteration}}</td>
                 <td class="center" id="name{{$category->id}}">{!!$category->name!!}</td>
                 <td class="center">

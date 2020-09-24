@@ -16,13 +16,12 @@ use Illuminate\Support\Facades\Route;
 //Route::get('index', function () {
 //    return view('layouts.master');
 //});
-Route::group(['prefix' => 'users', 'middleware' => 'role:admin,user'], function () {
+Route::group(['prefix' => 'users'], function () {
     Route::get('/', ['uses' => 'UserController@index', 'middleware' => 'can:list_user'])->name('user.index');
     Route::get('{id}/edit', ['uses' => 'UserController@edit', 'middleware' => 'can:edit_product'])->name('user.edit');
     Route::post('/update/{id}',
         ['uses' => 'UserController@update', 'middleware' => 'can:update_user'])->name('user.update');
-    Route::post('/delete/{id}',
-        ['uses' => 'UserController@destroy', 'middleware' => 'can:delete_user'])->name('user.delete');
+    Route::post('/delete/{id}', 'UserController@destroy')->name('user.delete')->middleware('can:delete_user');
     Route::post('/add', ['UserController@store', 'middleware' => 'can:add_user'])->name('user.store');
     Route::get('/list', 'UserController@search')->name('user.list');
     Route::get('/search/{field?}', 'UserController@search')->name('user.search');
@@ -43,22 +42,36 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/list', 'ProductController@list')->name('products.list');
 });
 Route::group(['prefix' => 'product-details', 'middleware' => 'role:user,admin'], function () {
-    Route::get('/', ['uses' =>'ProductDetailController@index', 'middleware' => 'can:list_product_detail'])->name('product-details.index');
-    Route::get('{id}/edit',['uses' =>'ProductDetailController@edit', 'middleware' => 'can:edit_product_detail'])->name('product-details.edit');
-    Route::post('/update/{id}', ['uses' =>'ProductDetailController@update', 'middleware' => 'can:update_product_detail'])->name('product-details.update');
-    Route::post('/delete/{id}', ['uses' =>'ProductDetailController@destroy', 'middleware' => 'can:delete_product_detail'])->name('product-details.delete');
-    Route::post('/add', ['uses' =>'ProductDetailController@store', 'middleware' => 'can:add_product_detail'])->name('product-details.store');
-    Route::get('/list',['uses' => 'ProductDetailController@list'])->name('product-details.list');
+    Route::get('/', [
+        'uses' => 'ProductDetailController@index',
+        'middleware' => 'can:list_product_detail'
+    ])->name('product-details.index');
+    Route::get('{id}/edit', [
+        'uses' => 'ProductDetailController@edit',
+        'middleware' => 'can:edit_product_detail'
+    ])->name('product-details.edit');
+    Route::post('/update/{id}', [
+        'uses' => 'ProductDetailController@update',
+        'middleware' => 'can:update_product_detail'
+    ])->name('product-details.update');
+    Route::post('/delete/{id}', [
+        'uses' => 'ProductDetailController@destroy',
+        'middleware' => 'can:delete_product_detail'
+    ])->name('product-details.delete');
+    Route::post('/add', [
+        'uses' => 'ProductDetailController@store',
+        'middleware' => 'can:add_product_detail'
+    ])->name('product-details.store');
+    Route::get('/list', ['uses' => 'ProductDetailController@list'])->name('product-details.list');
 });
-Route::group(['prefix' => 'categories', 'middleware' => 'role:user,admin'], function () {
-    Route::get('/',
-        ['uses' => 'CategoryController@index', 'middleware' => 'can:list_category'])->name('category.index');
+Route::group(['prefix' => 'categories'], function () {
+    Route::get('/', 'CategoryController@index')->name('category.index')->middleware('can:list_category');
     Route::get('{id}/edit',
         ['uses' => 'CategoryController@edit', 'middleware' => 'can:edit_category'])->name('category.edit');
     Route::post('/update/{id}',
         ['uses' => 'CategoryController@update', 'middleware' => 'can:update_category'])->name('category.update');
     Route::post('/delete/{id}',
-        ['uses' => 'CategoryController@destroy', 'middleware' => 'can:delete-category'])->name('category.delete');
+        ['uses' => 'CategoryController@destroy', 'middleware' => 'can:delete_category'])->name('category.delete');
     Route::post('/add',
         ['uses' => 'CategoryController@store', 'middleware' => 'can:add_category'])->name('category.store');
     Route::get('/list', 'CategoryController@list')->name('category.list');

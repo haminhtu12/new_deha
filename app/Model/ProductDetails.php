@@ -58,7 +58,7 @@ class ProductDetails extends Model
         $productDetail->update($data);
         return $productDetail;
     }
-
+//delete
     public function isVerify($file): bool
     {
         return ($file != null && $file != '');

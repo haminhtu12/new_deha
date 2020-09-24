@@ -36,7 +36,7 @@ class ProductDetailController extends Controller
     public function edit($id)
     {
         return response()->json([
-            'productDetail' => $this->productDetail->findOrFail($id),
+            'productDetail' => $this->productDetail->findOrFail($id),// gach duoi
         ]);
 
     }
@@ -58,7 +58,7 @@ class ProductDetailController extends Controller
     public function list()
     {
         $productDetails = $this->productDetail->all();
-        return view('productdetails.list')->with(['productDetails' => $productDetails]);
+        return view('productdetails.list')->with(['productDetails' => $productDetails]);// gach ngang
     }
 
 }
