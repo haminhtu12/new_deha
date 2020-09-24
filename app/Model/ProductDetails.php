@@ -51,7 +51,7 @@ class ProductDetails extends Model
         return $filename;
     }
 
-    public function update($id, $data = null, $image = null)
+    public function updateProductDetail($id, $data = null, $image = null)
     {
         $productDetail = $this->findOrFail($id);
         $data['image'] = $this->updatePhoto($image, $productDetail['image']);

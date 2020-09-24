@@ -43,7 +43,7 @@ class ProductDetailController extends Controller
 
     public function update(Request $request, $id)
     {
-        $productDetail = $this->productDetail->update($id, $request->all(), $request->file('image'));
+        $productDetail = $this->productDetail->updateProductDetail($id, $request->all(), $request->file('image'));
         return response()->json(['productDetails' => $productDetail]);
 
     }

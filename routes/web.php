@@ -17,11 +17,13 @@ use Illuminate\Support\Facades\Route;
 //    return view('layouts.master');
 //});
 Route::group(['prefix' => 'users', 'middleware' => 'role:admin,user'], function () {
-    Route::get('/', 'UserController@index')->name('user.index');
-    Route::get('{id}/edit', 'UserController@edit')->name('user.edit');
-    Route::post('/update/{id}', 'UserController@update')->name('user.update');
-    Route::post('/delete/{id}', 'UserController@destroy')->name('user.delete');
-    Route::post('/add', 'UserController@store')->name('user.store');
+    Route::get('/', ['uses' => 'UserController@index', 'middleware' => 'can:list_user'])->name('user.index');
+    Route::get('{id}/edit', ['uses' => 'UserController@edit', 'middleware' => 'can:edit_product'])->name('user.edit');
+    Route::post('/update/{id}',
+        ['uses' => 'UserController@update', 'middleware' => 'can:update_user'])->name('user.update');
+    Route::post('/delete/{id}',
+        ['uses' => 'UserController@destroy', 'middleware' => 'can:delete_user'])->name('user.delete');
+    Route::post('/add', ['UserController@store', 'middleware' => 'can:add_user'])->name('user.store');
     Route::get('/list', 'UserController@search')->name('user.list');
     Route::get('/search/{field?}', 'UserController@search')->name('user.search');
     Route::get('/change-status/{id}', 'UserController@changeStatus')->name('user.changeStatus');
@@ -41,12 +43,12 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/list', 'ProductController@list')->name('products.list');
 });
 Route::group(['prefix' => 'product-details', 'middleware' => 'role:user,admin'], function () {
-    Route::get('/', 'ProductDetailController@index')->name('product-details.index');
-    Route::get('{id}/edit', 'ProductDetailController@edit')->name('product-details.edit');
-    Route::post('/update/{id}', 'ProductDetailController@update')->name('product-details.update');
-    Route::post('/delete/{id}', 'ProductDetailController@destroy')->name('product-details.delete');
-    Route::post('/add', 'ProductDetailController@store')->name('product-details.store');
-    Route::get('/list', 'ProductDetailController@list')->name('product-details.list');
+    Route::get('/', ['uses' =>'ProductDetailController@index', 'middleware' => 'can:list_product_detail'])->name('product-details.index');
+    Route::get('{id}/edit',['uses' =>'ProductDetailController@edit', 'middleware' => 'can:edit_product_detail'])->name('product-details.edit');
+    Route::post('/update/{id}', ['uses' =>'ProductDetailController@update', 'middleware' => 'can:update_product_detail'])->name('product-details.update');
+    Route::post('/delete/{id}', ['uses' =>'ProductDetailController@destroy', 'middleware' => 'can:delete_product_detail'])->name('product-details.delete');
+    Route::post('/add', ['uses' =>'ProductDetailController@store', 'middleware' => 'can:add_product_detail'])->name('product-details.store');
+    Route::get('/list',['uses' => 'ProductDetailController@list'])->name('product-details.list');
 });
 Route::group(['prefix' => 'categories', 'middleware' => 'role:user,admin'], function () {
     Route::get('/',
