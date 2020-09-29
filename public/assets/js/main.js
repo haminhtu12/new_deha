@@ -7,9 +7,9 @@ $(document).ready(function () {
 
 
 });
-let urlUpdate = '';
-let urldelete = '';
-let urlList = '';
+// let urlUpdate = '';
+// let urldelete = '';
+// let urlList = '';
 function callApi(url, data = '', method = 'get') {
     return $.ajax({
         url: url,

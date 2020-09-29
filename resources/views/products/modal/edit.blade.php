@@ -34,25 +34,25 @@
                             </div>
                         </div>
                         <!-- Text input-->
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4 col-lg-4">
-                                    <label class="control-label pull-right"><h4>Category Id</h4></label>
-                                </div>
-                                <div class="col-md-4 col-lg-4 inputGroupContainer">
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="mdi mdi-email"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" id="category_id"  name="category_id" class="form-control" placeholder="CategoryId" >
-                                    </div>
-
-                                </div>
-                            </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <label class="control-label pull-right"><h4>Category Name</h4></label>
                         </div>
+                        <div class="col-md-4 col-lg-4 inputGroupContainer">
+
+                            <select name="category_id"  class="form-control">
+                                <option value=""> -- Select One --</option>
+                                @foreach ($categories as $category)
+                                    <option
+                                        value="{{ $category->id }}">{{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-md-4 col-lg-4 control-label"></label>

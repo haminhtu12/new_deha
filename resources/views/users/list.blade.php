@@ -48,6 +48,6 @@
         </tbody>
 
     </table>
-    <div id="pagination">{{{ $users->links() }}}</div>
+    <div id="pagination" data-action="{{route('user.paginate')}}">{{{ $users->links() }}}</div>
 
 </div>

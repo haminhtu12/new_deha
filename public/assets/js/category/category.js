@@ -1,7 +1,7 @@
 $(document).ready(function () {
     let urlUpdate = '';
     let urldelete = '';
-    getList();
+    getList($('#table-category'));
 
     //add
     $(document).on('click', '#add-submit-category', function () {
@@ -11,7 +11,7 @@ $(document).ready(function () {
             .then((res) => {
                 toastr.success(" Create Success  Category");
                 $('#addModalCategory').modal('hide');
-                getList();
+                getList($('#table-category'));
             })
             .catch((res) => {
                 if (res.status == 422) {
@@ -37,8 +37,8 @@ $(document).ready(function () {
         callApi(urldelete, null, "POST")
             .then((res) => {
                 toastr.success('Delete category Success');
-                 getList()
-               // that.parent().parent().remove();
+                getList($('#table-category'));
+           // that.parent().parent().remove();
             })
     })
 
@@ -61,7 +61,7 @@ $(document).ready(function () {
             .then(() => {
                 $('#editModalCategory').modal('hide');
                 toastr.success('Edit Product success');
-                getList();
+                getList($('#table-category'));
             })
             .catch((res) => {
                 if (res.status == 422) {
@@ -73,14 +73,6 @@ $(document).ready(function () {
             })
     })
 })
-
-function getList() {
-    let url = $('#table-category').data('action');
-    callApi(url)
-        .then((res) => {
-            $('#table-category').replaceWith(res);
-        })
-}
 function fillCategoryToModal(category) {
     $('#editCategoryModalTitle').html(`Edit ${category.name}`);
     $('#name').val(category.name);

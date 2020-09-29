@@ -11,8 +11,8 @@
             <h4 class="header-line">Product Detail Mananger</h4>
         </div>
     </div>
-    @include('productdetails.modal.add')
-    @include('productdetails.modal.edit')
+    @include('product_details.modal.add')
+    @include('product_details.modal.edit')
     <div class="row" style="padding-top: 15px">
         <div class="col-md-12">
             <!-- Advanced Tables -->

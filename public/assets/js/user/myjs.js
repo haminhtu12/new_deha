@@ -113,6 +113,8 @@ $(document).ready(function () {
     })
 
     $(document).on('click', '#pagination a', function (event) {
+        let xxxx =   $(document).on('click', '#pagination ').data('action');
+        console.log(xxxx)
         event.preventDefault();
         var page = $(this).attr('href').split('page=')[1];
         getNextPage(page);

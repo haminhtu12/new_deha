@@ -23,10 +23,10 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/search/{field?}', 'UserController@search')->name('user.search');
     Route::get('/change-status/{id}', 'UserController@changeStatus')->name('user.changeStatus');
     Route::get('/filter-users/{field}', 'UserController@filter')->name('user.filter');
-    Route::get('pagination/fetch_data', 'UserController@fetchDataPaginate');
+    Route::get('pagination/fetch_data', 'UserController@fetchDataPaginate')->name('user.paginate');
 });
 Route::group(['prefix' => 'products'], function () {
-    Route::get('/')->name('products.index')->middleware('can:list_product');
+    Route::get('/','ProductController@index')->name('products.index')->middleware('can:list_product');
     Route::get('{id}/edit', 'ProductController@edit')->name('product.edit')->middleware('can:edit_product');
     Route::post('/update/{id}', 'ProductController@update')->name('product.update')->middleware('can:update_product');
     Route::post('/delete/{id}', 'ProductController@destroy')->name('product.delete')->middleware('can:delete_product');
@@ -51,7 +51,7 @@ Route::group(['prefix' => 'categories'], function () {
     Route::get('{id}/edit', 'CategoryController@edit')->name('category.edit')->middleware('can:edit_category');
     Route::post('/update/{id}',
         'CategoryController@update')->name('category.update')->middleware('can:update_category');
-    Route::post('/delete/{id}', 'CategoryController@destroy')->name('category.delete')->middleware('delete_category');
+    Route::post('/delete/{id}', 'CategoryController@destroy')->name('category.delete')->middleware('can:delete_category');
     Route::post('/add', 'CategoryController@store')->name('category.store')->middleware('can:add_category');
     Route::get('/list', 'CategoryController@list')->name('category.list');
 });

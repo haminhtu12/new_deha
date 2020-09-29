@@ -2,15 +2,16 @@
 
 namespace App\Model;
 
+use App\Traits\HandleImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-use handleImage;
 
 define('FILE_PATH_PRODUCTIVE', config('pathway.path_upload_image_product_detail'));
 
 class ProductDetails extends Model
 {
+    use handleImage;
 
     protected $table = "product_details";
     protected $guarded = [];

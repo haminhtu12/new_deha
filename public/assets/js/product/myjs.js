@@ -1,24 +1,18 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
 $(document).ready(function () {
     let urlUpdate = '';
     let urldelete = '';
     let urlList = '';
-    getList();
+    getList($('#table-product'));
 
     //add
     $(document).on('click', '#add-submit-product', function () {
         let urlAddProduct = 'products/add';
         let data = new FormData($('#add_product_form')[0]);
-        callProductApi(urlAddProduct, data, "POST")
+        callApi(urlAddProduct, data, "POST")
             .then((res) => {
                 toastr.success(" Create Success  Product");
                 $('#addModalProduct').modal('hide');
-                getList();
+                getList($('#table-product'));
 
             })
             .catch((res) => {
@@ -49,9 +43,9 @@ $(document).ready(function () {
         let data = new FormData($('#edit_product_form')[0]);
 
         console.log(data)
-        callProductApi(urlUpdate, data, 'POST')
+        callApi(urlUpdate, data, 'POST')
             .then(() => {
-                getList()
+                getList($('#table-product'));
                 $('#editModal').modal('hide');
                 toastr.success('Edit Product sucess');
             })
@@ -79,7 +73,7 @@ $(document).ready(function () {
     $(document).on('click', '#confirmDeleteProduct', function () {
         $('#modalDeleteProduct').modal('hide');
 
-        callProductApi(urldelete, null, "POST")
+        callApi(urldelete, null, "POST")
             .then((res) => {
                 toastr.success('Delete Product Success');
                 that.parent().parent().remove();
@@ -89,28 +83,9 @@ $(document).ready(function () {
 
 });
 
-//update
-
-function callProductApi(url, data = '', method = 'get') {
-    return $.ajax({
-        url: url,
-        data: data,
-        method: method,
-        processData: false,
-        contentType: false,
-    });
-}
-
 function fillProductToModal(product) {
     $('#editProductModalTitle').html(`Edit ${product.name}`);
     $('#category_id').val(product.category_id);
     $('#name').val(product.name);
 }
 
-function getList() {
-    let url = $('#table-product').attr('data-action');
-    callProductApi(url)
-        .then((res) => {
-            $('#table-product').replaceWith(res);
-        })
-}

@@ -1,23 +1,17 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
 $(document).ready(function () {
     let urlUpdate = '';
     let urldelete = '';
-    let urlList = '';
-    getList();
+    getList($('#table-product-details'));
 
     //add
     $(document).on('click', '#add-submit-productdetail', function () {
         let urlAddProductDetail = 'product-details/add';
         let data = new FormData($('#add_productdetail_form')[0]);
-        callProductDetailApi(urlAddProductDetail, data, "POST")
+        callApi(urlAddProductDetail, data, "POST")
             .then((res) => {
                 toastr.success(" Create Success  Product Detail");
                 $('#addModalProductDetail').modal('hide');
-                getList();
+                getList($('#table-product-details'));
             })
             .catch((res) => {
                 if (res.status == 422) {
@@ -49,9 +43,9 @@ $(document).ready(function () {
         e.preventDefault();
         let data = new FormData($('#edit_productdetail_form')[0]);
 
-        callProductDetailApi(urlUpdate, data, 'POST')
+        callApi(urlUpdate, data, 'POST')
             .then(() => {
-                getList()
+                getList($('#table-product-details'));
                 $('#editModalProductDetail').modal('hide');
                 toastr.success('Edit Product Detail sucess');
             })
@@ -75,7 +69,7 @@ $(document).ready(function () {
     $(document).on('click', '#confirmDeleteProduct', function () {
         $('#modalDeleteProduct').modal('hide');
         console.log(urldelete)
-        callProductDetailApi(urldelete, null, "POST")
+        callApi(urldelete, null, "POST")
             .then((res) => {
                 console.log(res);
                 toastr.success('Delete Product Success');
@@ -85,24 +79,6 @@ $(document).ready(function () {
 
 
 });
-
-function callProductDetailApi(url, data = '', method = 'get') {
-    return $.ajax({
-        url: url,
-        data: data,
-        method: method,
-        processData: false,
-        contentType: false,
-    });
-}
-
-function getList() {
-    let url = $('#table-product-details').attr('data-action');
-    callProductDetailApi(url)
-        .then((res) => {
-            $('#table-product-details').replaceWith(res);
-        })
-}
 
 function fillProductDetailToModal(productDetail) {
     $('#editProductDetailModal').html(`Edit ${productDetail.name}`);

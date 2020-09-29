@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Traits;
+
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+
 trait HandleImage
 {
-    public  function insertImage($file = null,$pathUploadImage)
+    public function insertImage($file = null, $pathUploadImage)
     {
         $filename = '';
         if ($file != null && $file != '') {
@@ -16,7 +18,8 @@ trait HandleImage
         }
         return $filename;
     }
-    public function updateImage($file, $currentFile,$pathUploadImage)
+
+    public function updateImage($file, $currentFile, $pathUploadImage)
     {
         $filename = $currentFile;
         if ($this->isVerify($file)) {
@@ -27,9 +30,12 @@ trait HandleImage
         }
         return $filename;
     }
-    public function deleteImage($pathUploadImage,$currentFile){
+
+    public function deleteImage($pathUploadImage, $currentFile)
+    {
         File::delete($pathUploadImage . $currentFile);
     }
+
     public function isVerify($file): bool
     {
         return ($file != null && $file != '');

@@ -17,8 +17,12 @@
             <tr class="odd gradeX ">
                 <td class="center ">{{$loop->iteration}}</td>
                 <td class="center" id="name{{$productDetail->id}}">{{$productDetail->name}}</td>
-                <td class="center" id="name{{$productDetail->id}}">@if($productDetail->image != '')<img
-                        src="{{asset("images/product_details/$productDetail->image")}}" alt="">@endif</td>
+{{--                <td class="center" id="name{{$productDetail->id}}">@if($productDetail->image != '')--}}
+{{--                        <img--}}
+{{--                        src="{{asset("images/product_details/$productDetail->image")}}" alt="">@endif</td>--}}
+                <td class="center" id="name{{$productDetail->id}}">@if($productDetail->image != '')
+                        <img src="{{asset("images/product_details/$productDetail->image")}}" alt="">@endif</td>
+
                 <td class="center" id="name{{$productDetail->id}}">{{$productDetail->detail}}</td>
                 <td class="center" id="name{{$productDetail->id}}">{{$productDetail->price}}</td>
                 <td class="center" id="name{{$productDetail->id}}">{{$productDetail->status}}</td>

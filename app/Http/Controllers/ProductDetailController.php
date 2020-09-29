@@ -50,6 +50,8 @@ class ProductDetailController extends Controller
 
     public function destroy($id)
     {
+        $productDetail = $this->productDetail->findOrFail($id);
+        $this->productDetail->deleteImage(FILE_PATH_PRODUCTIVE, $productDetail['image']);
         $this->productDetail->destroy($id);
         return response()->json(['data' => 'remove']);
 

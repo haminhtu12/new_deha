@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Model\Role;
+use App\Traits\HandleImage;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 
 class UserController extends Controller
 {
     protected $user;
     protected $role;
+
+//    use  HandleImage;
 
     public function __construct(User $user, Role $role)
     {
@@ -51,7 +55,9 @@ class UserController extends Controller
 
     public function destroy(int $id)
     {
-        $this->user->destroy($id);
+        $user = $this->user->findOrFail($id);
+        $this->user->deleteImage(FILE_PATH, $user['avatar']);
+        $user->destroy($id);
         return response()->json(['data' => 'remove']);
     }
 

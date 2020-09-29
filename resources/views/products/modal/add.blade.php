@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4 col-lg-4">
-                                    <label class="control-label pull-right"><h4>Category Id</h4></label>
+                                    <label class="control-label pull-right"><h4>Category Name</h4></label>
                                 </div>
                                 <div class="col-md-4 col-lg-4 inputGroupContainer">
 

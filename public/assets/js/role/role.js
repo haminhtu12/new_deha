@@ -1,11 +1,5 @@
-
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-$(document).ready(function (){
-    getList();
+$(document).ready(function () {
+    getList($('#table-role'));
 
     //add
     $(document).on('click', '#add-submit-role', function () {
@@ -13,11 +7,11 @@ $(document).ready(function (){
         let formAdd = $('#add_role_form');
         let data = formAdd.serialize();
         let url = formAdd.data('action');
-        callRoleApi(url, data, 'POST')  .then((res) => {
-                toastr.success(" Create Success  Product");
-                $('#addModalRole').modal('hide');
-                getList();
-            })
+        callApi(url, data, 'POST').then((res) => {
+            toastr.success(" Create Success  Product");
+            $('#addModalRole').modal('hide');
+            getList($('#table-role'));
+        })
             .catch((res) => {
                 if (res.status == 422) {
                     $(".error").css('display', 'block');
@@ -26,8 +20,6 @@ $(document).ready(function (){
                     });
                 }
             })
-
-
     });
 
     //edit
@@ -36,7 +28,7 @@ $(document).ready(function (){
         urlUpdate = $(this).data('update');
         let url = $(this).data('action');
         $.get(url, (data) => {
-            let {role,rolePermissions} = data;
+            let {role, rolePermissions} = data;
             $('.permission').val(rolePermissions)
             fillRoleToModal(role);
         })
@@ -47,19 +39,19 @@ $(document).ready(function (){
         e.preventDefault();
         let data = $('#edit_role_form').serialize();
 
-        callRoleApi(urlUpdate, data, 'POST')
+        callApi(urlUpdate, data, 'POST')
             .then(() => {
 
                 $('#editModalRole').modal('hide');
                 toastr.success('Edit Product sucess');
                 $('.permission').val(rolePermissions)
-                getList();
+                getList($('#table-role'));
             })
-            .catch((res)=>{
-                if (res.status == 422){
-                    $(".error").css('display','block');
-                    $.each( res.responseJSON.errors, function( key, value ) {
-                        $(".error").find("ul").append('<li>'+value+'</li>');
+            .catch((res) => {
+                if (res.status == 422) {
+                    $(".error").css('display', 'block');
+                    $.each(res.responseJSON.errors, function (key, value) {
+                        $(".error").find("ul").append('<li>' + value + '</li>');
                     });
                 }
             })
@@ -72,35 +64,20 @@ $(document).ready(function (){
     // confirm delete
     $(document).on('click', '#confirmDeleteRole', function () {
         $('#modalDeleteRole').modal('hide');
-        callRoleApi(urldelete, null, "POST")
+        callApi(urldelete, null, "POST")
             .then((res) => {
                 toastr.success('Delete role Success');
                 that.parent().parent().remove();
             })
     })
 
-    $(document).on('click','.checkbox_wrapper',function (){
+    $(document).on('click', '.checkbox_wrapper', function () {
         let parentClassName = $(this).data('class');
 
-       $(this).parents('.card').find(`.${parentClassName}-select-item`).prop('checked',$(this).prop('checked'));
+        $(this).parents('.card').find(`.${parentClassName}-select-item`).prop('checked', $(this).prop('checked'));
     });
 });
-function getList() {
-    let url = $('#table-role').attr('data-action');
-    callRoleApi(url)
-        .then((res) => {
-            $('#table-role').replaceWith(res);
-        })
-}
-function callRoleApi(url, data = {}, method = 'get') {
-    return $.ajax({
-        url: url,
-        data: data,
-        method: method,
-        // processData: false,
-        // contentType: false,
-    });
-}
+
 function fillRoleToModal(role) {
     $('#editRoleModalTitle').html(`Edit ${role.name}`);
     $('#name').val(role.name);
