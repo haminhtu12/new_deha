@@ -2,31 +2,28 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Traits\HandleImage;
+use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
 use App\Model\Role;
-use PHPUnit\Exception;
+use Intervention\Image\Facades\Image;
 
-define('FILE_PATH', config('pathupload.path_upload_avatar'));
+define('FILE_PATH', config('pathway.path_upload_avatar'));
 
-class User extends Authenticatable
+//$FILE_PATH =  config('pathway.path_upload_avatar');
+
+
+class User extends Authenticate
 {
 
-    use Notifiable;
+
+    use Notifiable, HandleImage;
 
     protected $table = 'users';
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'address',
-        'status',
-        'avatar',
-        'phone'
-    ];
+
+    protected $fillable = ['name', 'email', 'password', 'status', 'phone', 'address', 'avatar'];
 
     protected $hidden = [
         'password',
@@ -44,22 +41,12 @@ class User extends Authenticatable
 
     public function createUser($data, $avatar = null)
     {
-        try {
-            DB::beginTransaction();
-            if (isset($avatar) && $avatar != '') {
-                $data['avatar'] = $this->insertPhoto($avatar);
-            }
-            $user = $this->create($data);
-
-            $roleIds = $data['role_id'];
-            $user->roles()->sync($roleIds);
-            DB::commit();
-            return $user;
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $e->getMessage();
+        if ($avatar) {
+            $data['avatar'] = $this->insertPhoto($avatar);
         }
+        $user = User::create($data);
+        $user->roles()->sync($data['role_id'] ?? []);
+        return $user;
     }
 
     public function upDateUser($id, $data = null, $avatar = null)
@@ -75,31 +62,12 @@ class User extends Authenticatable
 
     public function insertPhoto($file = null)
     {
-        $filename = '';
-        if ($this->isVerify($file)) {
-            $filename = $file->getClientOriginalName();
-            $image_resize = Image::make($file->getRealPath());
-            $image_resize->resize(60, 60);
-            $image_resize->save(public_path(FILE_PATH . time() . $filename));
-        }
-        return time() . $filename;
-    }
-
-    public function isVerify($file): bool
-    {
-        return ($file != null && $file != '');
+        return $this->insertImage($file, FILE_PATH);
     }
 
     public function updatePhoto($file, $currentFile)
     {
-        $filename = $currentFile;
-        if ($this->isVerify($file)) {
-            if ($currentFile) {
-                File::delete(FILE_PATH . $currentFile);
-            }
-            $filename = $this->insertPhoto($file);
-        }
-        return $filename;
+        return $this->updateImage($file, $currentFile, FILE_PATH);
     }
 
     public function search($searchText, $field)

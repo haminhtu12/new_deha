@@ -43,7 +43,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $this->category->destroy($id);
-        return 1;
+        return response()->json(['data' => 'Delete success category']);
     }
 
     public function list()

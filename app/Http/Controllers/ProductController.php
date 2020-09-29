@@ -50,6 +50,8 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $this->product->destroy($id);
+        return response()->json(['data' => 'Delete success product']);
+
     }
 
     public function list()

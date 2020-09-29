@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Model\Permission;
 use App\Model\Role;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -19,14 +19,12 @@ class RoleController extends Controller
 
     public function index()
     {
-        $permissionsParent = $this->permission->where('parent_id', 0)->get();//orm
-
-
+        $permissionsParent = $this->permission->where('parent_id', 0)->get();           //orm
         $roles = $this->role->paginate(2);
         return view('roles.index')->with(['roles' => $roles, 'permissionsParent' => $permissionsParent]);
     }
 
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
 
         $role = $this->role->create($request->all());
@@ -44,23 +42,22 @@ class RoleController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(RoleRequest $request, $id)
     {
         $role = $this->role->findOrFail($id)->load('permissions');
         $role->update($request->all());
         $role->assignPermissions($request->permission_id);
         return response()->json(['role' => $role]);
-
     }
 
     public function destroy($id)
     {
         $this->role->destroy($id);
+        return response()->json(['data' => 'Delete success role']);
     }
 
     public function list()
     {
-
         $roles = $this->role->all();
         return view('roles.list')->with(['roles' => $roles]);
     }

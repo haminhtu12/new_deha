@@ -5,11 +5,13 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use handleImage;
 
-define('FILE_PATH_PRODUCTDETAIL', config('pathupload.path_upload_image_productdetai'));
+define('FILE_PATH_PRODUCTIVE', config('pathway.path_upload_image_product_detail'));
 
 class ProductDetails extends Model
 {
+
     protected $table = "product_details";
     protected $guarded = [];
 
@@ -20,6 +22,7 @@ class ProductDetails extends Model
 
     public function create($data, $image = null)
     {
+        $productDetail = '';
         if (isset($image) && $image != '') {
             $data['image'] = $this->insertPhoto($image);
             $productDetail = $this->create($data);
@@ -27,28 +30,14 @@ class ProductDetails extends Model
         return $productDetail;
     }
 
-    public static function insertPhoto($file = null)
+    public function insertPhoto($file = null)
     {
-        $filename = '';
-        if ($file != null && $file != '') {
-            $filename = $file->getClientOriginalName();
-            $image_resize = Image::make($file->getRealPath());
-            $image_resize->resize(60, 60);
-            $image_resize->save(public_path(FILE_PATH_PRODUCTDETAIL . $filename));
-        }
-        return $filename;
+        return $this->insertImage($file, FILE_PATH_PRODUCTIVE);
     }
 
     public function updatePhoto($file, $currentFile)
     {
-        $filename = $currentFile;
-        if ($this->isVerify($file)) {
-            if ($currentFile) {
-                File::delete(FILE_PATH_PRODUCTDETAIL . $currentFile);
-            }
-            $filename = $this->insertPhoto($file);
-        }
-        return $filename;
+        return $this->updateImage($file, $currentFile, FILE_PATH_PRODUCTIVE);
     }
 
     public function updateProductDetail($id, $data = null, $image = null)
@@ -59,6 +48,7 @@ class ProductDetails extends Model
         return $productDetail;
     }
 //delete
+
     public function isVerify($file): bool
     {
         return ($file != null && $file != '');

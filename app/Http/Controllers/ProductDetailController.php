@@ -21,7 +21,7 @@ class ProductDetailController extends Controller
     {
         $productDetails = $this->productDetail->all();
         $products = $this->product->all();
-        return view('productdetails.index')->with([
+        return view('product_details.index')->with([
             'productDetails' => $productDetails,
             'products' => $products
         ]);
@@ -58,7 +58,7 @@ class ProductDetailController extends Controller
     public function list()
     {
         $productDetails = $this->productDetail->all();
-        return view('productdetails.list')->with(['productDetails' => $productDetails]);// gach ngang
+        return view('product_details.list')->with(['productDetails' => $productDetails]);// gach ngang
     }
 
 }
