@@ -70,9 +70,9 @@ class User extends Authenticate
         return $this->updateImage($file, $currentFile, FILE_PATH);
     }
 
-    public function search($searchText, $field)
+    public function search($data)
     {
-        return $this->withSearch($searchText)->withStatus($field)->paginate(4);
+        return $this->withSearch($data['name'])->withStatus($data['status'])->paginate(1);
     }
 
     public function changeStatus($id)

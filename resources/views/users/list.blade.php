@@ -48,6 +48,6 @@
         </tbody>
 
     </table>
-    <div id="pagination" data-action="{{route('user.paginate')}}">{{{ $users->links() }}}</div>
+    <div >{!!  $users->appends(Request::only(['name','status','quantity'=>'marker']))->render() !!}</div>
 
 </div>

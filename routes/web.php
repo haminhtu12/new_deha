@@ -32,6 +32,8 @@ Route::group(['prefix' => 'products'], function () {
     Route::post('/delete/{id}', 'ProductController@destroy')->name('product.delete')->middleware('can:delete_product');
     Route::post('/add', 'ProductController@store')->name('product.store')->middleware('can:add_product');
     Route::get('/list', 'ProductController@list')->name('products.list');
+    Route::get('pagination/fetch_data', 'ProductController@fetchDataPaginate')->name('product.paginate');
+
 });
 Route::group(['prefix' => 'product-details', 'middleware' => 'role:user,admin'], function () {
     Route::get('/',

@@ -88,4 +88,19 @@ function fillProductToModal(product) {
     $('#category_id').val(product.category_id);
     $('#name').val(product.name);
 }
+$(document).on('click', '#pagination-product a', function (event) {
+    event.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+    getNextPage(page);
+});
+
+function getNextPage(page) {
+    $.ajax({
+        url: "/products/pagination/fetch_data?page=" + page,
+        success: function (data) {
+            $('#table-user').html(data);
+            // getList($('#table-product'));
+        }
+    });
+}
 

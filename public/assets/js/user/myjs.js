@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    getList($('#table-user'));
+    getListUser()
 
     //edit
     $(document).on('click', '.btn-edit-user', function () {
@@ -90,43 +90,33 @@ $(document).ready(function () {
     })
 
     //filter
-    $(document).on('click', '#btnFilterAllUser', function () {
-        let urlChangeStatusUser = $(this).data('action');
-        callApi(urlChangeStatusUser)
-            .then((res) => {
-                $('#table-user').replaceWith(res);
-            });
-    })
-    $(document).on('click', '#btnFilterActiveUser', function () {
-        let urlChangeStatusUser = $(this).data('action');
-        callApi(urlChangeStatusUser)
-            .then((res) => {
-                $('#table-user').replaceWith(res);
-            });
-    })
-    $(document).on('click', '#btnFilterInActiveUser', function () {
-        let urlChangeStatusUser = $(this).data('action');
-        callApi(urlChangeStatusUser)
-            .then((res) => {
-                $('#table-user').replaceWith(res);
-            });
+    $(document).on('change', '#user-status', function () {
+        getListUser();
     })
 
-    $(document).on('click', '#pagination a', function (event) {
-        let xxxx =   $(document).on('click', '#pagination ').data('action');
-        console.log(xxxx)
+    $(document).on('click', 'a.page-link', function (event) {
         event.preventDefault();
-        var page = $(this).attr('href').split('page=')[1];
-        getNextPage(page);
+        let url = $(this).attr('href')
+        list(url)
     });
 
-    function getNextPage(page) {
-        $.ajax({
-            url: "/users/pagination/fetch_data?page=" + page,
-            success: function (data) {
-                $('#table-user').html(data);
-            }
-        });
+    $(document).on('keyup', '#input-search-user', function () {
+        getListUser();
+    });
+
+    function getListUser() {
+        let form = $('#search-form');
+        let url = form.data('action');
+        let data = form.serialize();
+
+        list(url, data);
+    }
+
+    function list(url, data = {}) {
+        callApi(url, data)
+            .then((res) => {
+                $('#table-user').replaceWith(res);
+            })
     }
 
 });
@@ -140,15 +130,3 @@ function fillUserToModal(user) {
     $('#status').val(user.status)
 }
 
-
-function seachUser() {
-    let searchText = '';
-    searchText = document.getElementById("input-search-user").value;
-    let urlSearch = $('#input-search-user').attr('data-action');
-    callApi(urlSearch + '?search=' + searchText)
-        .then((res) => {
-            $('#table-user').replaceWith(res);
-        })
-
-
-}

@@ -25,4 +25,8 @@
         @include('products.modal.delete')
         </tbody>
     </table>
+ <div>
+     {{ $products->links() }}
+ </div>
+
 </div>

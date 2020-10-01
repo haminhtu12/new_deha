@@ -15,7 +15,6 @@ class UserController extends Controller
     protected $user;
     protected $role;
 
-//    use  HandleImage;
 
     public function __construct(User $user, Role $role)
     {
@@ -27,7 +26,7 @@ class UserController extends Controller
     {
         $users = $this->user->all();
         $roles = $this->role->all();
-        return view('users.index')->with(['users' => $users, 'roles' => $roles]);//compose
+        return view('users.index')->with(['users' => $users, 'roles' => $roles]);    //compose
     }
 
     public function store(CreateUserRequest $request)
@@ -61,9 +60,11 @@ class UserController extends Controller
         return response()->json(['data' => 'remove']);
     }
 
-    public function search(Request $request, $field = null)
+    public function search(Request $request)
     {
-        $users = $this->user->search($request->search, $field);
+        $data['name']= $request->name ?? null;
+        $data['status']= $request->status ?? null;
+        $users = $this->user->search($data);
         return view('users.list')->with(['users' => $users]);
     }
 
