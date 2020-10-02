@@ -48,7 +48,7 @@ class CategoryController extends Controller
 
     public function list()
     {
-        $categories = $this->category->all();
+        $categories = $this->category->paginate(2);
         return view('categories.list')->with(['categories' => $categories]);
     }
 

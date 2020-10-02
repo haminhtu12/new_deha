@@ -7,9 +7,6 @@ $(document).ready(function () {
 
 
 });
-// let urlUpdate = '';
-// let urldelete = '';
-// let urlList = '';
 function callApi(url, data = '', method = 'get') {
     return $.ajax({
         url: url,
@@ -19,10 +16,10 @@ function callApi(url, data = '', method = 'get') {
         contentType: false,
     });
 }
-function getList(selector) {
-    let url = selector.attr('data-action');
+function getList() {
+    let url = $('#table').attr('data-action');
     callApi(url)
         .then((res) => {
-            selector.replaceWith(res);
+            $('#table').replaceWith(res);
         })
 }

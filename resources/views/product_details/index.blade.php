@@ -20,7 +20,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-body">
-                    <div class="table-responsive" id="table-product-details"
+                    <div class="table-responsive" id="table"
                          data-action="{{route('product-details.list')}}">
 
                     </div>

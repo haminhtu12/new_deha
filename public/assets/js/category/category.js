@@ -1,8 +1,7 @@
 $(document).ready(function () {
     let urlUpdate = '';
     let urldelete = '';
-    getList($('#table-category'));
-
+    getList();
     //add
     $(document).on('click', '#add-submit-category', function () {
         let urlAddCategory = $(this).data('action');
@@ -11,7 +10,7 @@ $(document).ready(function () {
             .then((res) => {
                 toastr.success(" Create Success  Category");
                 $('#addModalCategory').modal('hide');
-                getList($('#table-category'));
+                getList();
             })
             .catch((res) => {
                 if (res.status == 422) {
@@ -37,7 +36,7 @@ $(document).ready(function () {
         callApi(urldelete, null, "POST")
             .then((res) => {
                 toastr.success('Delete category Success');
-                getList($('#table-category'));
+                getList();
            // that.parent().parent().remove();
             })
     })
@@ -61,7 +60,7 @@ $(document).ready(function () {
             .then(() => {
                 $('#editModalCategory').modal('hide');
                 toastr.success('Edit Product success');
-                getList($('#table-category'));
+                getList();
             })
             .catch((res) => {
                 if (res.status == 422) {
@@ -72,6 +71,16 @@ $(document).ready(function () {
                 }
             })
     })
+    $(document).on('click', 'a.page-link', function (event) {
+        event.preventDefault();
+        let url = $(this).attr('href');
+        callApi(url)
+            .then((res) => {
+                $('#table').replaceWith(res);
+            })
+
+    });
+
 })
 function fillCategoryToModal(category) {
     $('#editCategoryModalTitle').html(`Edit ${category.name}`);

@@ -77,6 +77,14 @@ $(document).ready(function () {
             })
     })
 
+    $(document).on('click', 'a.page-link', function (event) {
+        event.preventDefault();
+        let url = $(this).attr('href');
+        callApi(url)
+            .then((res) => {
+                $('#table').replaceWith(res);
+            })
+    });
 
 });
 

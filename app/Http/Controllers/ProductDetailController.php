@@ -59,7 +59,7 @@ class ProductDetailController extends Controller
 
     public function list()
     {
-        $productDetails = $this->productDetail->all();
+        $productDetails = $this->productDetail->paginate(2);
         return view('product_details.list')->with(['productDetails' => $productDetails]);// gach ngang
     }
 

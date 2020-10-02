@@ -68,13 +68,13 @@ class UserController extends Controller
         return view('users.list')->with(['users' => $users]);
     }
 
-    function fetchDataPaginate(Request $request)
-    {
-        if ($request->ajax()) {
-            $users = $this->user->paginate(4);
-            return view('users.list', compact('users'))->render();
-        }
-    }
+//    function fetchDataPaginate(Request $request)
+//    {
+//        if ($request->ajax()) {
+//            $users = $this->user->paginate(4);
+//            return view('users.list', compact('users'))->render();
+//        }
+//    }
 
     public function changeStatus($id)
     {

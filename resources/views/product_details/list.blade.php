@@ -1,4 +1,4 @@
-<div class="table-responsive" id="table-product-details" data-action="{{route('product-details.list')}}">
+<div class="table-responsive" id="table" data-action="{{route('product-details.list')}}">
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
         <thead>
         <tr>
@@ -44,4 +44,8 @@
         @include('products.modal.delete')
         </tbody>
     </table>
+    <div>
+        {{ $productDetails->links() }}
+    </div>
+
 </div>

@@ -56,15 +56,7 @@ class ProductController extends Controller
 
     public function list()
     {
-        $products = $this->product->paginate(1);
+        $products = $this->product->paginate(2);
         return view('products.list')->with(['products' => $products]);
     }
-    function fetchDataPaginate(Request $request)
-    {
-        if ($request->ajax()) {
-            $products = $this->product->paginate(2);
-            return view('products.list', compact('products'))->render();
-        }
-    }
-
 }

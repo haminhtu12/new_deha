@@ -12,7 +12,7 @@ $(document).ready(function () {
             .then((res) => {
                 toastr.success(" Create Success  Product");
                 $('#addModalProduct').modal('hide');
-                getList($('#table-product'));
+                getList($('#table'));
 
             })
             .catch((res) => {
@@ -45,7 +45,7 @@ $(document).ready(function () {
         console.log(data)
         callApi(urlUpdate, data, 'POST')
             .then(() => {
-                getList($('#table-product'));
+                getList($('#table'));
                 $('#editModal').modal('hide');
                 toastr.success('Edit Product sucess');
             })
@@ -79,7 +79,15 @@ $(document).ready(function () {
                 that.parent().parent().remove();
             })
     })
+    $(document).on('click', 'a.page-link', function (event) {
+        event.preventDefault();
+        let url = $(this).attr('href');
+        callApi(url)
+            .then((res) => {
+                $('#table').replaceWith(res);
+            })
 
+    });
 
 });
 
@@ -98,7 +106,7 @@ function getNextPage(page) {
     $.ajax({
         url: "/products/pagination/fetch_data?page=" + page,
         success: function (data) {
-            $('#table-user').html(data);
+            $('#table').html(data);
             // getList($('#table-product'));
         }
     });
