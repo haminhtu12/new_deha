@@ -4,14 +4,12 @@ namespace App\Model;
 
 use App\Traits\HandleImage;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
 
 define('FILE_PATH_PRODUCTIVE', config('pathway.path_upload_image_product_detail'));
 
 class ProductDetails extends Model
 {
-    use handleImage;
+    use HandleImage;
 
     protected $table = "product_details";
     protected $guarded = [];
@@ -21,19 +19,10 @@ class ProductDetails extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function create($data, $image = null)
+    public function createDetail($data, $image = null)
     {
-        $productDetail = '';
-        if (isset($image) && $image != '') {
-            $data['image'] = $this->insertPhoto($image);
-            $productDetail = $this->create($data);
-        }
-        return $productDetail;
-    }
-
-    public function insertPhoto($file = null)
-    {
-        return $this->insertImage($file, FILE_PATH_PRODUCTIVE);
+        $data['image'] = $this->insertImage($image, FILE_PATH_PRODUCTIVE);
+        return $this->create($data);
     }
 
     public function updatePhoto($file, $currentFile)

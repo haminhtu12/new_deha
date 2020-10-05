@@ -128,5 +128,7 @@ function fillUserToModal(user) {
     $('#phone').val(user.phone)
     $('#address').val(user.address)
     $('#status').val(user.status)
+    $('#img').attr("src","images/avatar/"+user.avatar);
+
 }
 

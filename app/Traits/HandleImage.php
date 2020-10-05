@@ -7,14 +7,14 @@ use Intervention\Image\Facades\Image;
 
 trait HandleImage
 {
-    public function insertImage($file = null, $pathUploadImage)
+    public function insertImage($file = null, $path)
     {
         $filename = '';
-        if ($file != null && $file != '') {
-            $filename = $file->getClientOriginalName();
-            $image_resize = Image::make($file->getRealPath());
-            $image_resize->resize(60, 60);
-            $image_resize->save(public_path($pathUploadImage . $filename));
+        if ($this->isVerify($file)) {
+            $filename =time().'.'. $file->getClientOriginalExtension();
+                 Image::make($file)
+                ->resize(60, 60)
+                ->save($path . $filename);
         }
         return $filename;
     }
@@ -24,16 +24,18 @@ trait HandleImage
         $filename = $currentFile;
         if ($this->isVerify($file)) {
             if ($currentFile) {
-                File::delete($pathUploadImage . $currentFile);
+               $this->deleteImage($pathUploadImage . $currentFile);
             }
-            $filename = $this->insertPhoto($file);
+            $filename = $this->insertImage($file, $pathUploadImage);
         }
         return $filename;
     }
 
-    public function deleteImage($pathUploadImage, $currentFile)
+    public function deleteImage($path)
     {
-        File::delete($pathUploadImage . $currentFile);
+        if (file_exists($path)) {
+            File::delete($path);
+        }
     }
 
     public function isVerify($file): bool

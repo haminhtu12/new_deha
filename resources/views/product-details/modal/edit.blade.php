@@ -12,7 +12,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 @include('users.error')
-                <form class="form-horizontal" method="post" id="edit_productdetail_form" enctype="multipart/form-data">
+                <form class="form-horizontal" method="post" id="edit-product-detail-form" enctype="multipart/form-data">
                     @csrf
                     <fieldset>
                         <div class="form-group">
@@ -133,13 +133,16 @@
                                     </div>
 
                                 </div>
+                                <div >
+                                    <img  alt="" id="img" class="img-thumbnail target-img">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-md-4 col-lg-4 control-label"></label>
                                 <div class="col-md-4 col-lg-4">
-                                    <button type="button" class="btn btn-danger  raised" id="edit-submit-productdetail">
+                                    <button type="button" class="btn btn-danger  raised" id="edit-submit-product-detail">
                                         Submit
                                         <i class="fa fa-paper-plane"></i></button>
                                 </div>

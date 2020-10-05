@@ -21,7 +21,7 @@ class ProductDetailController extends Controller
     {
         $productDetails = $this->productDetail->all();
         $products = $this->product->all();
-        return view('product_details.index')->with([
+        return view('product-details.index')->with([
             'productDetails' => $productDetails,
             'products' => $products
         ]);
@@ -29,23 +29,21 @@ class ProductDetailController extends Controller
 
     public function store(Request $request)
     {
-        $productDetail = $this->productDetail->create($request->all(), $request->file('image'));
+        $productDetail = $this->productDetail->createDetail($request->all(), $request->file('image'));
         return response(['productDetail' => $productDetail]);
     }
 
     public function edit($id)
     {
         return response()->json([
-            'productDetail' => $this->productDetail->findOrFail($id),// gach duoi
+            'product_detail' => $this->productDetail->findOrFail($id),
         ]);
-
     }
 
     public function update(Request $request, $id)
     {
         $productDetail = $this->productDetail->updateProductDetail($id, $request->all(), $request->file('image'));
         return response()->json(['productDetails' => $productDetail]);
-
     }
 
     public function destroy($id)
@@ -59,8 +57,8 @@ class ProductDetailController extends Controller
 
     public function list()
     {
-        $productDetails = $this->productDetail->paginate(2);
-        return view('product_details.list')->with(['productDetails' => $productDetails]);// gach ngang
+        $productDetails = $this->productDetail->paginate(7);
+        return view('product-details.list')->with(['productDetails' => $productDetails]);// gach ngang
     }
 
 }

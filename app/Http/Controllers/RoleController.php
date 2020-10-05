@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleRequest;
+use App\Http\Requests\CreateRoleRequest;
+use App\Http\Requests\EditRoleRequest;
 use App\Model\Permission;
 use App\Model\Role;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -24,7 +26,7 @@ class RoleController extends Controller
         return view('roles.index')->with(['roles' => $roles, 'permissionsParent' => $permissionsParent]);
     }
 
-    public function store(RoleRequest $request)
+    public function store(CreateRoleRequest $request)
     {
 
         $role = $this->role->create($request->all());
@@ -37,12 +39,11 @@ class RoleController extends Controller
     {
         $role = $this->role->findOrFail($id)->load('permissions');
         $rolePermissions = $role->permissions->pluck('id')->toArray();
-
         return response()->json(['role' => $role, 'rolePermissions' => $rolePermissions]);
 
     }
 
-    public function update(RoleRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $role = $this->role->findOrFail($id)->load('permissions');
         $role->update($request->all());

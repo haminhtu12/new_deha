@@ -1,4 +1,4 @@
-<div class="table-responsive" id="table-role" data-action="{{route('roles.list')}}">
+<div class="table-responsive" id="table" data-action="{{route('roles.list')}}">
     <table class="table table-striped table-bordered table-hover" id="dataTables-example" >
         <thead>
         <tr>

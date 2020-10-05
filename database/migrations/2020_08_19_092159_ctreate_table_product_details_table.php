@@ -13,7 +13,7 @@ class CtreateTableProductDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_details', function (Blueprint $table) {
+        Schema::create('product-details', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('product_id');
@@ -32,6 +32,6 @@ class CtreateTableProductDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_details');
+        Schema::dropIfExists('product-details');
     }
 }

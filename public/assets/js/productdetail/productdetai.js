@@ -1,7 +1,7 @@
 $(document).ready(function () {
     let urlUpdate = '';
     let urldelete = '';
-    getList($('#table-product-details'));
+    getList();
 
     //add
     $(document).on('click', '#add-submit-productdetail', function () {
@@ -11,7 +11,7 @@ $(document).ready(function () {
             .then((res) => {
                 toastr.success(" Create Success  Product Detail");
                 $('#addModalProductDetail').modal('hide');
-                getList($('#table-product-details'));
+                getList() ;
             })
             .catch((res) => {
                 if (res.status == 422) {
@@ -30,24 +30,22 @@ $(document).ready(function () {
         let url = $(this).data('action');
 
         $.get(url, (data) => {
-
-            let {productDetail} = data;
-
-
-            fillProductDetailToModal(productDetail);
+            let {product_detail} = data;
+            console.log(product_detail);
+            fillProductDetailToModal(product_detail);
         })
     });
 
     //update
-    $(document).on('click', '#edit-submit-productdetail', function (e) {
+    $(document).on('click', '#edit-submit-product-detail', function (e) {
         e.preventDefault();
-        let data = new FormData($('#edit_productdetail_form')[0]);
+        let data = new FormData($('#edit-product-detail-form')[0]);
 
         callApi(urlUpdate, data, 'POST')
             .then(() => {
-                getList($('#table-product-details'));
+                getList() ;
                 $('#editModalProductDetail').modal('hide');
-                toastr.success('Edit Product Detail sucess');
+                toastr.success('Edit Product Detail Success');
             })
             .catch((res) => {
                 if (res.status == 422) {
@@ -71,7 +69,6 @@ $(document).ready(function () {
         console.log(urldelete)
         callApi(urldelete, null, "POST")
             .then((res) => {
-                console.log(res);
                 toastr.success('Delete Product Success');
                 that.parent().parent().remove();
             })
@@ -94,4 +91,6 @@ function fillProductDetailToModal(productDetail) {
     $('#edit_detail').val(productDetail.detail);
     $('#edit_price').val(productDetail.price);
     $('#edit_amount').val(productDetail.amount);
+     $('#img').attr("src","images/product_details/"+productDetail.image);
+
 }

@@ -159,6 +159,10 @@
                                     </div>
 
                                 </div>
+                                <div >
+                                    <img  alt="" id="img" class="img-thumbnail target-img">
+                                </div>
+
                             </div>
                         </div>
 

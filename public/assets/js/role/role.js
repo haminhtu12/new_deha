@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    getList($('#table-role'));
+    getList();
 
     //add
     $(document).on('click', '#add-submit-role', function () {
@@ -10,7 +10,7 @@ $(document).ready(function () {
         callApi(url, data, 'POST').then((res) => {
             toastr.success(" Create Success  Product");
             $('#addModalRole').modal('hide');
-            getList($('#table-role'));
+            getList();
         })
             .catch((res) => {
                 if (res.status == 422) {
@@ -24,6 +24,7 @@ $(document).ready(function () {
 
     //edit
     rolePermissions = [];
+    let urlUpdate = '';
     $(document).on('click', '.btn-edit-role', function () {
         urlUpdate = $(this).data('update');
         let url = $(this).data('action');
@@ -37,15 +38,13 @@ $(document).ready(function () {
     //update
     $(document).on('click', '#edit-submit-role', function (e) {
         e.preventDefault();
-        let data = $('#edit_role_form').serialize();
-
+        let data =new FormData ($('#edit_role_form')[0]);
         callApi(urlUpdate, data, 'POST')
             .then(() => {
-
                 $('#editModalRole').modal('hide');
-                toastr.success('Edit Product sucess');
+                toastr.success('Edit Product Success');
                 $('.permission').val(rolePermissions)
-                getList($('#table-role'));
+                getList();
             })
             .catch((res) => {
                 if (res.status == 422) {

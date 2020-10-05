@@ -19,7 +19,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-body">
-                    <div class="table-responsive" id="table-role" data-action="{{route('roles.list')}}">
+                    <div class="table-responsive" id="table" data-action="{{route('roles.list')}}">
 
                     </div>
 
